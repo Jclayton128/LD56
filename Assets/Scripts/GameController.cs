@@ -7,6 +7,7 @@ public class GameController : MonoBehaviour
 {
     public static GameController Instance { get; private set; }
 
+
     public enum GameModes { Intro, TitleMenu, CoreGameLoop, GameOver, Credits, Options}
     public Action<GameModes> GameModeChanged;
 
@@ -24,7 +25,50 @@ public class GameController : MonoBehaviour
 
     public void SetGameMode(GameModes newGameMode)
     {
+        if (UIController.Instance.IsUIActivelyTweening)
+        {
+            Debug.Log("Cannot swap game modes with active UI tweening");
+            return;
+        }
         _gameMode = newGameMode;
         GameModeChanged?.Invoke(_gameMode);
     }
+
+
+    private void Update()
+    {
+
+        ListenForDebug();
+    }
+
+    private void ListenForDebug()
+    {
+        if (Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            SetGameMode(GameModes.Intro);
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha2))
+        {
+            SetGameMode(GameModes.TitleMenu);
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha3))
+        {
+            SetGameMode(GameModes.CoreGameLoop);
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha4))
+        {
+            SetGameMode(GameModes.GameOver);
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha5))
+        {
+            SetGameMode(GameModes.Credits);
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha6))
+        {
+            SetGameMode(GameModes.Options);
+        }
+
+
+    }
+
 }

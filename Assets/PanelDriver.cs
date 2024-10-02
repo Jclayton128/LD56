@@ -8,6 +8,13 @@ using System;
 
 public class PanelDriver : MonoBehaviour
 {
+    /// <summary>
+    /// Used to command panels that have images and TextMeshProUGUIs. Assumption is that
+    /// panels are set up how they should be when unused. Anchored position should be inputted
+    /// via inspector.
+    /// </summary>
+
+
     //settings    
     [Tooltip("Resting position of the panel")]
     Vector2 _restPosition = Vector2.zero;
@@ -21,7 +28,8 @@ public class PanelDriver : MonoBehaviour
     [Tooltip("How much time for the panel to fade in/out")]
     [SerializeField] float _fadeTime = 1f;
 
-    [SerializeField] bool _startsFaded = true;
+    [SerializeField] bool _startsFaded = false;
+    [SerializeField] bool _fadeWhenRested = true;
 
     //state
     bool _isInitialized = false;
@@ -66,14 +74,16 @@ public class PanelDriver : MonoBehaviour
         }
     }
 
-    public void MovePanelToActivePosition(bool shouldMoveInstantly)
+    public void ActivatePanel(bool shouldMoveInstantly)
     {
         MovePanel(_activePosition, shouldMoveInstantly);
+        if (_fadeWhenRested) FadeUnfadePanel(false, shouldMoveInstantly);
     }
 
-    public void MovePanelToRestPosition(bool shouldMoveInstantly)
+    public void RestPanel(bool shouldMoveInstantly)
     {
         MovePanel(_restPosition, shouldMoveInstantly);
+        if (_fadeWhenRested) FadeUnfadePanel(true, shouldMoveInstantly);
     }
 
     private void MovePanel(Vector2 destination, bool shouldMoveInstantly)
@@ -90,7 +100,7 @@ public class PanelDriver : MonoBehaviour
         PushTweenCompletionTime(_moveTime);
     }
 
-    public void FadeUnfadePanel(bool shouldBeFaded, bool shouldFadeInstantly)
+    private void FadeUnfadePanel(bool shouldBeFaded, bool shouldFadeInstantly)
     {
         if (shouldBeFaded)
         {
@@ -124,7 +134,7 @@ public class PanelDriver : MonoBehaviour
 
     public void ResetPanelToStartCondition(bool shouldResetInstantly)
     {
-        MovePanelToRestPosition(shouldResetInstantly);
+        RestPanel(shouldResetInstantly);
         FadeUnfadePanel(_startsFaded, shouldResetInstantly);
     }
 
@@ -140,29 +150,29 @@ public class PanelDriver : MonoBehaviour
 
 
 
-    [ContextMenu("Test Move Off")]
-    public void Debug_TestMove1()
-    {
-        MovePanelToRestPosition(false);
-    }
+    //[ContextMenu("Test Move Off")]
+    //public void Debug_TestMove1()
+    //{
+    //    MovePanelToRestPosition(false);
+    //}
 
 
-    [ContextMenu("Test Move On")]
-    public void Debug_TestMove2()
-    {
-        MovePanelToActivePosition(false);
-    }
+    //[ContextMenu("Test Move On")]
+    //public void Debug_TestMove2()
+    //{
+    //    MovePanelToActivePosition(false);
+    //}
 
-    [ContextMenu("Test Fade ")]
-    public void Debug_Fade()
-    {
-        FadeUnfadePanel(true, false);
-    }
+    //[ContextMenu("Test Fade ")]
+    //public void Debug_Fade()
+    //{
+    //    FadeUnfadePanel(true, false);
+    //}
 
-    [ContextMenu("Test Deade ")]
-    public void Debug_Defade()
-    {
-        FadeUnfadePanel(false, false);
-    }
+    //[ContextMenu("Test Deade ")]
+    //public void Debug_Defade()
+    //{
+    //    FadeUnfadePanel(false, false);
+    //}
 
 }

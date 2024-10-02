@@ -204,7 +204,8 @@ MonoBehaviour:
   _activePosition: {x: 0, y: 0}
   _moveTime: 1
   _fadeTime: 1
-  _startsFaded: 1
+  _startsFaded: 0
+  _fadeWhenRested: 0
 --- !u!1001 &9185356267823480756
 PrefabInstance:
   m_ObjectHideFlags: 0
