@@ -20,8 +20,18 @@ namespace BeeGame.TypingGame
 
         private void Start()
         {
+            GameController.Instance.GameModeChanged += HandleGameModeChanged;
             LoadWordList();
             StartMinigame();
+        }
+
+        private void HandleGameModeChanged(GameController.GameModes newGameMode)
+        {
+            if (newGameMode == GameController.GameModes.Recruiting)
+            {
+                enabled = true;
+            }
+            else enabled = false;
         }
 
         private void LoadWordList()
@@ -53,7 +63,7 @@ namespace BeeGame.TypingGame
 
         public void StartMinigame()
         {
-            slider.value = 0;
+            slider.value = 0.5f; //0;
             ShuffleWordList();
             PlayNextWord();
         }
@@ -86,6 +96,8 @@ namespace BeeGame.TypingGame
                 slider.value += 0.05f;
                 honeycomb.TypeLetterIndex(currentLetterIndex);
                 currentLetterIndex++;
+                //TODO have extra spectator bees show up to provide visual feedback that the player is doing well
+
                 if (currentLetterIndex == currentWord.Length)
                 {
                     PlayNextWord();
@@ -100,7 +112,17 @@ namespace BeeGame.TypingGame
             {
                 slider.value -= Time.deltaTime * 0.1f;
             }
+
+            if (slider.value <= 0)
+            {
+                //minigame ends
+                //TODO output number of successful words to inform number of bees in next pollen hunt
+                GameController.Instance.SetGameMode(GameController.GameModes.Flying);
+            }
         }
+
+        
+
 
     }
 }
