@@ -1,0 +1,106 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UI;
+
+namespace BeeGame.TypingGame
+{
+
+    public class TypingMinigame : MonoBehaviour
+    {
+
+        [SerializeField] private Honeycomb honeycomb;
+        [SerializeField] private Slider slider;
+        [SerializeField] private TextAsset wordListAsset;
+
+        private List<string> wordList;
+        private int currentWordIndex = 0;
+        private string currentWord;
+        private int currentLetterIndex = 0;
+
+        private void Start()
+        {
+            LoadWordList();
+            StartMinigame();
+        }
+
+        private void LoadWordList()
+        {
+            wordList = new List<string>();
+            foreach (var word in wordListAsset.text.Split('\n'))
+            {
+                var trimmed = word.Trim();
+                if (string.IsNullOrEmpty(trimmed)) continue;
+                wordList.Add(trimmed.ToUpper());
+            }
+            if (wordList.Count == 0)
+            {
+                Debug.LogError("Word list is empty.");
+            }
+        }
+
+        private void ShuffleWordList()
+        {
+            if (wordList == null || wordList.Count < 2) return;
+            for (int i = 0; i < wordList.Count - 1; i++)
+            {
+                int j = UnityEngine.Random.Range(i, wordList.Count);
+                var tmp = wordList[i];
+                wordList[i] = wordList[j];
+                wordList[j] = tmp;
+            }
+        }
+
+        public void StartMinigame()
+        {
+            slider.value = 0;
+            ShuffleWordList();
+            PlayNextWord();
+        }
+
+        private void PlayNextWord()
+        {
+            if (currentWordIndex == wordList.Count)
+            {
+                ShuffleWordList();
+                currentWordIndex = 0;
+            }
+            PlayWord(wordList[currentWordIndex]);
+            currentWordIndex++;
+        }
+
+        private void PlayWord(string word)
+        {
+            currentWord = word;
+            honeycomb.SetupWord(word);
+            currentLetterIndex = 0;
+        }
+
+        private void Update()
+        {
+            if (currentWord == null) return;
+            var requiredCharacter = currentWord[currentLetterIndex];
+            var requiredKeyCode = KeyCode.A + requiredCharacter - 'A';
+            if (Input.GetKeyDown(requiredKeyCode))
+            {
+                slider.value += 0.05f;
+                honeycomb.TypeLetterIndex(currentLetterIndex);
+                currentLetterIndex++;
+                if (currentLetterIndex == currentWord.Length)
+                {
+                    PlayNextWord();
+                }
+            }
+            else if (Input.anyKeyDown)
+            {
+                honeycomb.ShowMistakeLetterIndex(currentLetterIndex);
+                slider.value -= 0.1f;
+            }
+            else
+            {
+                slider.value -= Time.deltaTime * 0.1f;
+            }
+        }
+
+    }
+}
