@@ -1,11 +1,10 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class UpgradeController : MonoBehaviour
+public class RecruitmentController : MonoBehaviour
 {
-    public static UpgradeController Instance { get; private set; }
+    public static RecruitmentController Instance { get; private set; }
 
     private void Awake()
     {
@@ -19,7 +18,7 @@ public class UpgradeController : MonoBehaviour
     }
     private void HandleGameModeChanged(GameController.GameModes newGameMode)
     {
-        if (newGameMode == GameController.GameModes.Upgrading)
+        if (newGameMode == GameController.GameModes.Recruiting)
         {
             enabled = true;
         }
@@ -30,7 +29,9 @@ public class UpgradeController : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            GameController.Instance.SetGameMode(GameController.GameModes.Recruiting);
+            GameController.Instance.SetGameMode(GameController.GameModes.Flying);
+            //TODO setup the player for a new pollen run. Drones, pollen load, etc.
+            //TODO setup the arena for a safe initial few seconds outside the hive. Move predators away.
         }
     }
 }
