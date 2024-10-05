@@ -7,10 +7,10 @@ public class ArenaObjectLibrary : MonoBehaviour
 {
     public static ArenaObjectLibrary Instance { get; private set; }
 
-    [SerializeField] GameObject[] _flowers = null;
+    [SerializeField] FlowerHandler[] _flowers = null;
 
     [Tooltip("Hive 0 is starting player. Others are for enemy factions.")]
-    [SerializeField] GameObject[] _hives = null;
+    [SerializeField] HiveHandler[] _hives = null;
 
     private void Awake()
     {
@@ -20,11 +20,11 @@ public class ArenaObjectLibrary : MonoBehaviour
     public GameObject GetRandomFlower()
     {
         int rand = UnityEngine.Random.Range(0, _flowers.Length);
-        return _flowers[rand];
+        return _flowers[rand].gameObject;
     }
 
     public GameObject GetHive(int hiveType)
     {
-        return _hives[hiveType];
+        return _hives[hiveType].gameObject;
     }
 }

@@ -8,20 +8,46 @@ public class GameController : MonoBehaviour
     public static GameController Instance { get; private set; }
     public Action NewGameStarted;
 
-    public enum GameModes { Intro, TitleMenu, CoreGameLoop, GameOver, Credits, Options}
+    public enum GameModes { Intro, TitleMenu, Flying, Upgrading, Recruiting,
+        GameOver, Credits, Options,
+}
     public Action<GameModes> GameModeChanged;
 
+    //settings
+    [SerializeField] float _pollenGoal = 50f;
+    public float PollenGoal => _pollenGoal;
 
     //state
     GameModes _gameMode = GameModes.Intro;
     public GameModes GameMode => _gameMode;
-
+    bool _hasIntroOccurred = false;
     
 
     private void Awake()
     {
         Instance = this;
     }
+
+    private void Start()
+    {
+        UIController.Instance.AllActiveTweensCompleted += HandleAllActiveTweensCompleted;
+        Invoke(nameof(Delay_CueIntro), 0.01f);
+    }
+
+    private void Delay_CueIntro()
+    {
+        SetGameMode(GameModes.Intro);
+    }
+
+    private void HandleAllActiveTweensCompleted()
+    {
+        if (!_hasIntroOccurred)
+        {
+            SetGameMode(GameModes.TitleMenu);
+            _hasIntroOccurred = true;
+        }
+    }
+
 
     public void SetGameMode(GameModes newGameMode)
     {
@@ -37,13 +63,25 @@ public class GameController : MonoBehaviour
 
     public void Handle_NewGamePress()
     {
-        SetGameMode(GameModes.CoreGameLoop);
+        SetGameMode(GameModes.Flying);
         NewGameStarted?.Invoke();
     }
 
     private void Update()
     {
         ListenForDebug();
+        ListenForGameStart();
+    }
+
+    private void ListenForGameStart()
+    {
+        if (_gameMode == GameModes.TitleMenu)
+        {
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                Handle_NewGamePress();
+            }
+        } 
     }
 
     private void ListenForDebug()
@@ -58,7 +96,7 @@ public class GameController : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.Alpha3))
         {
-            SetGameMode(GameModes.CoreGameLoop);
+            SetGameMode(GameModes.Flying);
         }
         if (Input.GetKeyDown(KeyCode.Alpha4))
         {

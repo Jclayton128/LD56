@@ -31,6 +31,20 @@ public class HarvestHandler : MonoBehaviour
         _contextHandler = GetComponent<ContextHandler>();
     }
 
+    private void Start()
+    {
+        GameController.Instance.GameModeChanged += HandleGameModeChanged;
+    }
+
+    private void HandleGameModeChanged(GameController.GameModes newGameMode)
+    {
+        if (newGameMode == GameController.GameModes.Flying)
+        {
+            enabled = true;
+        }
+        else enabled = false;
+    }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         FlowerHandler fh;
@@ -52,7 +66,11 @@ public class HarvestHandler : MonoBehaviour
         {
             //TODO check allegiance to make sure that the player is near a friendly hive.
             _hiveHandler = hh;
-            _contextHandler.AddAvailableContext(ContextHandler.BeeContexts.DepositPollenAtHive);
+
+            if (_pollenLoad > 0)
+            {
+                _contextHandler.AddAvailableContext(ContextHandler.BeeContexts.DepositPollenAtHive);
+            }           
         }
 
     }
@@ -131,14 +149,17 @@ public class HarvestHandler : MonoBehaviour
 		
 		//play sound fx
 		SoundFXManager.instance.PlaySoundFXClip(pollenCollectClip, transform, 1f);
+
     }
 
     private void DepositPollen()
     {
         _hiveHandler.DepositPollen(_pollenLoad);
         _pollenLoad = 0;
+
         _contextHandler.RemoveAvailableContext(ContextHandler.BeeContexts.DepositPollenAtHive);
         PollenFactorChanged?.Invoke();
+        GameController.Instance.SetGameMode(GameController.GameModes.Upgrading);
     }
 
 

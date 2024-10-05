@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class ContextHandler : MonoBehaviour
 {
+    public Action BeeContextChanged;
     public enum BeeContexts {None, Harvest, Attack, DepositPollenAtHive}
 
 
@@ -16,7 +17,7 @@ public class ContextHandler : MonoBehaviour
 
     private void Start()
     {
-        UIController.Instance.SetContextText(" ");
+        ReassessRequestedContexts();
     }
 
     public void AddAvailableContext(BeeContexts newContext)
@@ -61,28 +62,7 @@ public class ContextHandler : MonoBehaviour
 
     private void SetContext(BeeContexts newBeeContext)
     {
-        _beeContext = newBeeContext;
-
-        switch (newBeeContext)
-        {
-            case BeeContexts.None:
-                UIController.Instance.SetContextText(" ");
-                break;
-
-            case BeeContexts.Harvest:
-                UIController.Instance.SetContextText("Space To Harvest");
-                break;
-
-            case BeeContexts.Attack:
-                UIController.Instance.SetContextText("Space to Attack");
-                break;
-
-            case BeeContexts.DepositPollenAtHive:
-                UIController.Instance.SetContextText("Space to Deposit Pollen");
-                break;
-
-
-        }
-        
+        _beeContext = newBeeContext;        
+        BeeContextChanged?.Invoke();
     }
 }

@@ -282,7 +282,7 @@ GameObject:
   - component: {fileID: 2443319750854771433}
   - component: {fileID: 2784891567362774209}
   m_Layer: 7
-  m_Name: Bee
+  m_Name: PlayerBee
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -368,10 +368,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8181c5e4f7c360d4fb134a1f691624c2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _moveSpeed: 2
+  _moveSpeed: 3
   _maxBumbleTime: 3
   _minBumbleTime: 1
-  _bumbleSpeed: 1
+  _bumbleSpeed: 2
   _bumbleVector: {x: 0, y: 0}
   _desiredVector: {x: 0, y: 0}
   _moveVector: {x: 0, y: 0}
@@ -388,7 +388,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _pollenCapacity_Starting: 10
-  _beeUIDriver: {fileID: 0}
+  _harvestableFlowersInRange: []
+  _pollenLoad: 0
+  _hiveHandler: {fileID: 0}
 --- !u!58 &5393746169982264003
 CircleCollider2D:
   m_ObjectHideFlags: 0

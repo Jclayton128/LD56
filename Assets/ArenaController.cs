@@ -9,7 +9,8 @@ using UnityEngine;
 /// </summary>
 public class ArenaController : MonoBehaviour
 {
-    public ArenaController Instance { get; private set; }
+    public static ArenaController Instance { get; private set; }
+    public Action NewArenaGenerated;
 
     //settings
     
@@ -17,19 +18,20 @@ public class ArenaController : MonoBehaviour
     [SerializeField] int _numberOfFlowers = 20;
     [SerializeField] float _minDistanceBetweenFlowers = 2f;
 
-    [SerializeField] int _totalHives = 4;
+    [SerializeField] int _enemyHivesToSpawn = 4;
     [SerializeField] float _minDistanceBetweenHives = 10f;
 
     [SerializeField] float _minDistanceFromHiveToFlower = 10f;
 
     //state
     GameObject _arena;
-    GameObject _homeHive;
-    [SerializeField] List<GameObject> _enemyHives = new List<GameObject>();
+    HiveHandler _homeHive;
+    public HiveHandler PlayerHive => _homeHive;
+    [SerializeField] List<HiveHandler> _enemyHives = new List<HiveHandler>();
     [SerializeField] List<Vector3> _allHivesPoints = new List<Vector3>();
 
 
-    [SerializeField] List<GameObject> _allFlowers = new List<GameObject>();
+    [SerializeField] List<FlowerHandler> _allFlowers = new List<FlowerHandler>();
     [SerializeField] List<Vector3> _allFlowersPoints = new List<Vector3>();
 
     private void Awake()
@@ -52,26 +54,27 @@ public class ArenaController : MonoBehaviour
 
         for (int i = 0; i < _numberOfFlowers; i++)
         {
-            GenerateRandomArenaObject();
+            GenerateRandomFlower();
         }
 
         GenerateHomeHive();
         GenerateEnemyHives();
 
-        //DestroyFlowersTooCloseToHives();
+        DestroyFlowersTooCloseToHives();
+        NewArenaGenerated?.Invoke();
     }
 
 
     private void GenerateHomeHive()
     {
-        _homeHive = Instantiate(ArenaObjectLibrary.Instance.GetHive(0));
+        _homeHive = Instantiate(ArenaObjectLibrary.Instance.GetHive(0)).GetComponent<HiveHandler>();
         _allHivesPoints.Add(_homeHive.transform.position);
         _homeHive.transform.parent = _arena.transform;
     }
 
     private void GenerateEnemyHives()
     {
-        for (int i = 0; i < _totalHives; i++)
+        for (int i = 0; i < _enemyHivesToSpawn; i++)
         {
             Vector3 pos = CUR.GetRandomPosWithinArenaAwayFromOtherPoints(Vector3.zero,
                 _maxArenaRadius,
@@ -80,9 +83,9 @@ public class ArenaController : MonoBehaviour
 
             if (pos == Vector3.zero) break;
 
-            GameObject newHive = Instantiate(
+            HiveHandler newHive = Instantiate(
                 ArenaObjectLibrary.Instance.GetHive(i + 1),
-                pos, Quaternion.identity);
+                pos, Quaternion.identity).GetComponent<HiveHandler>();
 
             newHive.transform.parent = _arena.transform;
 
@@ -100,7 +103,7 @@ public class ArenaController : MonoBehaviour
         _homeHive = null;
     }
 
-    private void GenerateRandomArenaObject()
+    private void GenerateRandomFlower()
     {
         Vector2 pos = CUR.GetRandomPosWithinArenaAwayFromOtherPoints(
             Vector2.zero,
@@ -108,9 +111,9 @@ public class ArenaController : MonoBehaviour
             _allFlowersPoints,
             _minDistanceBetweenFlowers);
 
-        GameObject go = Instantiate(
+        FlowerHandler go = Instantiate(
             ArenaObjectLibrary.Instance.GetRandomFlower(),
-            pos, Quaternion.identity);
+            pos, Quaternion.identity).GetComponent<FlowerHandler>();
 
         go.transform.parent = _arena.transform;
 
@@ -120,6 +123,22 @@ public class ArenaController : MonoBehaviour
 
     private void DestroyFlowersTooCloseToHives()
     {
+        foreach (var hive in _allHivesPoints)
+        {
+            var hits = Physics2D.OverlapCircleAll(hive, _minDistanceFromHiveToFlower);
+            for (int i = hits.Length - 1; i >= 0; i--)
+            {
+                FlowerHandler fh;
+                if (hits[i].TryGetComponent<FlowerHandler>(out fh))
+                {
+                    _allFlowers.Remove(fh);
+                    _allFlowersPoints.Remove(fh.transform.position);
+                    Destroy(hits[i].gameObject);
+                }
+
+            }
+        }
+
         //float dist;
         //for (int i = _allFlowers.Count - 1; i >= 0; i--)
         //{

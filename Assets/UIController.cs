@@ -8,14 +8,18 @@ using TMPro;
 public class UIController : MonoBehaviour
 {
     public static UIController Instance { get; private set; }
+    public Action AllActiveTweensCompleted;
+    
 
     [SerializeField] PanelDriver[] _introPanel = null;
     [SerializeField] PanelDriver[] _titlePanel = null;
-    [SerializeField] PanelDriver[] _coreGameLoopPanel = null;
+    [SerializeField] PanelDriver[] _flyingPanel = null;
+    [SerializeField] PanelDriver[] _upgradingPanel = null;
+    [SerializeField] PanelDriver[] _recruitingPanel = null;
     [SerializeField] PanelDriver[] _gameOverPanel = null;
     [SerializeField] PanelDriver[] _creditsPanel = null;
     [SerializeField] PanelDriver[] _optionsPanel = null;
-    [SerializeField] TextMeshProUGUI _contextTMP = null;
+    //
 
     /// <summary>
     /// TRUE anytime a tween commanded by this UI Controller is still active. 
@@ -34,7 +38,9 @@ public class UIController : MonoBehaviour
     {
         foreach (var panel in _introPanel) panel?.InitializePanel(this);
         foreach (var panel in _titlePanel) panel?.InitializePanel(this);
-        foreach (var panel in _coreGameLoopPanel) panel?.InitializePanel(this);
+        foreach (var panel in _flyingPanel) panel?.InitializePanel(this);
+        foreach (var panel in _upgradingPanel) panel?.InitializePanel(this);
+        foreach (var panel in _recruitingPanel) panel?.InitializePanel(this);
         foreach (var panel in _gameOverPanel) panel?.InitializePanel(this);
         foreach (var panel in _creditsPanel) panel?.InitializePanel(this);
         foreach (var panel in _optionsPanel) panel?.InitializePanel(this);
@@ -56,7 +62,9 @@ public class UIController : MonoBehaviour
             case GameController.GameModes.Intro:
                 foreach (var panel in _introPanel) panel?.ActivatePanel(false);
                 foreach (var panel in _titlePanel) panel?.RestPanel(false);
-                foreach (var panel in _coreGameLoopPanel) panel?.RestPanel(false);
+                foreach (var panel in _flyingPanel) panel?.RestPanel(false);
+                foreach (var panel in _upgradingPanel) panel?.RestPanel(false);
+                foreach (var panel in _recruitingPanel) panel?.RestPanel(false);
                 foreach (var panel in _gameOverPanel) panel?.RestPanel(false);
                 foreach (var panel in _creditsPanel) panel?.RestPanel(false);
                 foreach (var panel in _optionsPanel) panel?.RestPanel(false);
@@ -65,16 +73,44 @@ public class UIController : MonoBehaviour
             case GameController.GameModes.TitleMenu:
                 foreach (var panel in _introPanel) panel?.RestPanel(false);
                 foreach (var panel in _titlePanel) panel?.ActivatePanel(false);
-                foreach (var panel in _coreGameLoopPanel) panel?.RestPanel(false);
+                foreach (var panel in _flyingPanel) panel?.RestPanel(false);
+                foreach (var panel in _upgradingPanel) panel?.RestPanel(false);
+                foreach (var panel in _recruitingPanel) panel?.RestPanel(false);
                 foreach (var panel in _gameOverPanel) panel?.RestPanel(false);
                 foreach (var panel in _creditsPanel) panel?.RestPanel(false);
                 foreach (var panel in _optionsPanel) panel?.RestPanel(false);
                 break;
 
-            case GameController.GameModes.CoreGameLoop:
+            case GameController.GameModes.Flying:
                 foreach (var panel in _introPanel) panel?.RestPanel(false);
                 foreach (var panel in _titlePanel) panel?.RestPanel(false);
-                foreach (var panel in _coreGameLoopPanel) panel?.ActivatePanel(false);
+                foreach (var panel in _flyingPanel) panel?.ActivatePanel(false);
+                foreach (var panel in _upgradingPanel) panel?.RestPanel(false);
+                foreach (var panel in _recruitingPanel) panel?.RestPanel(false);
+                foreach (var panel in _gameOverPanel) panel?.RestPanel(false);
+                foreach (var panel in _creditsPanel) panel?.RestPanel(false);
+                foreach (var panel in _optionsPanel) panel?.RestPanel(false);
+                break;
+
+
+            case GameController.GameModes.Upgrading:
+                foreach (var panel in _introPanel) panel?.RestPanel(false);
+                foreach (var panel in _titlePanel) panel?.RestPanel(false);
+                foreach (var panel in _flyingPanel) panel?.RestPanel(false);
+                foreach (var panel in _upgradingPanel) panel?.ActivatePanel(false);
+                foreach (var panel in _recruitingPanel) panel?.RestPanel(false);
+                foreach (var panel in _gameOverPanel) panel?.RestPanel(false);
+                foreach (var panel in _creditsPanel) panel?.RestPanel(false);
+                foreach (var panel in _optionsPanel) panel?.RestPanel(false);
+                break;
+
+
+            case GameController.GameModes.Recruiting:
+                foreach (var panel in _introPanel) panel?.RestPanel(false);
+                foreach (var panel in _titlePanel) panel?.RestPanel(false);
+                foreach (var panel in _flyingPanel) panel?.RestPanel(false);
+                foreach (var panel in _upgradingPanel) panel?.RestPanel(false);
+                foreach (var panel in _recruitingPanel) panel?.ActivatePanel(false);
                 foreach (var panel in _gameOverPanel) panel?.RestPanel(false);
                 foreach (var panel in _creditsPanel) panel?.RestPanel(false);
                 foreach (var panel in _optionsPanel) panel?.RestPanel(false);
@@ -83,7 +119,9 @@ public class UIController : MonoBehaviour
             case GameController.GameModes.GameOver:
                 foreach (var panel in _introPanel) panel?.RestPanel(false);
                 foreach (var panel in _titlePanel) panel?.RestPanel(false);
-                foreach (var panel in _coreGameLoopPanel) panel?.RestPanel(false);
+                foreach (var panel in _flyingPanel) panel?.RestPanel(false);
+                foreach (var panel in _upgradingPanel) panel?.RestPanel(false);
+                foreach (var panel in _recruitingPanel) panel?.RestPanel(false);
                 foreach (var panel in _gameOverPanel) panel?.ActivatePanel(false);
                 foreach (var panel in _creditsPanel) panel?.RestPanel(false);
                 foreach (var panel in _optionsPanel) panel?.RestPanel(false);
@@ -92,7 +130,9 @@ public class UIController : MonoBehaviour
             case GameController.GameModes.Credits:
                 foreach (var panel in _introPanel) panel?.RestPanel(false);
                 foreach (var panel in _titlePanel) panel?.RestPanel(false);
-                foreach (var panel in _coreGameLoopPanel) panel?.RestPanel(false);
+                foreach (var panel in _flyingPanel) panel?.RestPanel(false);
+                foreach (var panel in _upgradingPanel) panel?.RestPanel(false);
+                foreach (var panel in _recruitingPanel) panel?.RestPanel(false);
                 foreach (var panel in _gameOverPanel) panel?.RestPanel(false);
                 foreach (var panel in _creditsPanel) panel?.ActivatePanel(false);
                 foreach (var panel in _optionsPanel) panel?.RestPanel(false);
@@ -101,7 +141,9 @@ public class UIController : MonoBehaviour
             case GameController.GameModes.Options:
                 foreach (var panel in _introPanel) panel?.RestPanel(false);
                 foreach (var panel in _titlePanel) panel?.RestPanel(false);
-                foreach (var panel in _coreGameLoopPanel) panel?.RestPanel(false);
+                foreach (var panel in _flyingPanel) panel?.RestPanel(false);
+                foreach (var panel in _upgradingPanel) panel?.RestPanel(false);
+                foreach (var panel in _recruitingPanel) panel?.RestPanel(false);
                 foreach (var panel in _gameOverPanel) panel?.RestPanel(false);
                 foreach (var panel in _creditsPanel) panel?.RestPanel(false);
                 foreach (var panel in _optionsPanel) panel?.ActivatePanel(false);
@@ -116,6 +158,7 @@ public class UIController : MonoBehaviour
             if (Time.time >= _timeThatTweensWillBeComplete)
             {
                 IsUIActivelyTweening = false;
+                AllActiveTweensCompleted?.Invoke();
             }
         }
 
@@ -131,11 +174,6 @@ public class UIController : MonoBehaviour
         }       
     }
 
-
-    public void SetContextText(string text)
-    {
-        _contextTMP.text = text;
-    }
 
 
 }
