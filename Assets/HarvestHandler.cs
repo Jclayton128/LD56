@@ -16,11 +16,13 @@ public class HarvestHandler : MonoBehaviour
 
 
     //state
-    List<GameObject> _flowersInRange = new List<GameObject>();
+    [SerializeField] List<FlowerHandler> _harvestableFlowersInRange = new List<FlowerHandler>();
     float _pollenCapacity_Current;
-    float _pollenLoad;
+    [SerializeField] float _pollenLoad = 0;
     public float PollenLoad => _pollenLoad;
     public float PollenFactor => _pollenLoad / _pollenCapacity_Current;
+
+    [SerializeField] HiveHandler _hiveHandler;
 
     private void Awake()
     {
@@ -29,35 +31,109 @@ public class HarvestHandler : MonoBehaviour
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
-    {        
-        _flowersInRange.Add(collision.gameObject);
-        _contextHandler.AddAvailableContext(ContextHandler.BeeContexts.Harvest);
+    {
+        FlowerHandler fh;
+        if (collision.TryGetComponent<FlowerHandler>(out fh))
+        {
+            fh.PollenAvailabilityChanged += HandlePollenAvailabilityChanged;
+            if (fh.Pollen > 0)
+            {
+                if (!_harvestableFlowersInRange.Contains(fh))
+                {
+                    _harvestableFlowersInRange.Add(fh);
+                }
+                _contextHandler.AddAvailableContext(ContextHandler.BeeContexts.Harvest);
+            }
+        }
+
+        HiveHandler hh;
+        if (collision.TryGetComponent<HiveHandler>(out hh))
+        {
+            //TODO check allegiance to make sure that the player is near a friendly hive.
+            _hiveHandler = hh;
+            _contextHandler.AddAvailableContext(ContextHandler.BeeContexts.DepositPollenAtHive);
+        }
+
     }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        _flowersInRange.Remove(collision.gameObject);
-        if (_flowersInRange.Count == 0)
+        FlowerHandler fh;
+        if (collision.TryGetComponent<FlowerHandler>(out fh))
         {
-            _contextHandler.RemoveAvailableContext(ContextHandler.BeeContexts.Harvest);
+            _harvestableFlowersInRange.Remove(fh);
+            fh.PollenAvailabilityChanged -= HandlePollenAvailabilityChanged;
+            if (_harvestableFlowersInRange.Count == 0)
+            {
+                _contextHandler.RemoveAvailableContext(ContextHandler.BeeContexts.Harvest);
+            }
+        }
+
+        HiveHandler hh;
+        if (collision.TryGetComponent<HiveHandler>(out hh))
+        {
+            //TODO check allegiance to make sure that the player is near a friendly hive.
+            _hiveHandler = null;
+            _contextHandler.RemoveAvailableContext(ContextHandler.BeeContexts.DepositPollenAtHive);
+        }
+
+    }
+
+    private void HandlePollenAvailabilityChanged(FlowerHandler flower, bool hasPollenAvailable)
+    {
+        if (hasPollenAvailable)
+        {
+            if (!_harvestableFlowersInRange.Contains(flower))
+            {
+                _harvestableFlowersInRange.Add(flower);
+                _contextHandler.AddAvailableContext(ContextHandler.BeeContexts.Harvest);
+            }
+        }
+        else
+        {
+            _harvestableFlowersInRange.Remove(flower);
+            if (_harvestableFlowersInRange.Count == 0)
+            {
+                _contextHandler.RemoveAvailableContext(ContextHandler.BeeContexts.Harvest);
+            }
         }
     }
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space) && _flowersInRange.Count > 0)
+        if (Input.GetKeyDown(KeyCode.Space))
         {
-            HarvestPollen();
+            if (_contextHandler.BeeContext == ContextHandler.BeeContexts.Harvest &&
+                _harvestableFlowersInRange.Count > 0)
+            {
+                HarvestPollen();
+            }
+
+            if ( _contextHandler.BeeContext == ContextHandler.BeeContexts.DepositPollenAtHive &&
+                _hiveHandler &&
+                _pollenLoad > 0)
+            {
+                DepositPollen();
+            }
         }
+
     }
 
-    public void HarvestPollen()
+    private void HarvestPollen()
     {
-        foreach (var flower in _flowersInRange)
+        for (int i = _harvestableFlowersInRange.Count -1; i >= 0; i--)
         {
-            //flower.HarvestPollen()
-            _pollenLoad += 1f;
+            _pollenLoad += _harvestableFlowersInRange[i].HarvestPollen();
+            //_pollenLoad += 1f;
         }
+        PollenFactorChanged?.Invoke();
+    }
+
+    private void DepositPollen()
+    {
+        _hiveHandler.DepositPollen(_pollenLoad);
+        _pollenLoad = 0;
+        _contextHandler.RemoveAvailableContext(ContextHandler.BeeContexts.DepositPollenAtHive);
         PollenFactorChanged?.Invoke();
     }
 

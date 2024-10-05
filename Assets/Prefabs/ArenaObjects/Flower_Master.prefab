@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 3662977676589062516}
   - component: {fileID: 3912359195503667075}
   - component: {fileID: 1508783490221687800}
+  - component: {fileID: -2452113042631622393}
   m_Layer: 6
   m_Name: Flower_Master
   m_TagString: Untagged
@@ -148,3 +149,19 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &-2452113042631622393
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4022678542900335929}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc1344bddb45b5a47b3e9bb8c897992f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _pollenRegenRate: 0.02
+  _minPollenForHarvest: 0.4
+  _maxPollenCapacity: 1
+  _pollen: 0
