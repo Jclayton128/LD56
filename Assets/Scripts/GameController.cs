@@ -6,7 +6,7 @@ using System;
 public class GameController : MonoBehaviour
 {
     public static GameController Instance { get; private set; }
-
+    public Action NewGameStarted;
 
     public enum GameModes { Intro, TitleMenu, CoreGameLoop, GameOver, Credits, Options}
     public Action<GameModes> GameModeChanged;
@@ -35,9 +35,14 @@ public class GameController : MonoBehaviour
     }
 
 
+    public void Handle_NewGamePress()
+    {
+        SetGameMode(GameModes.CoreGameLoop);
+        NewGameStarted?.Invoke();
+    }
+
     private void Update()
     {
-
         ListenForDebug();
     }
 
