@@ -7,8 +7,9 @@ using DG.Tweening;
 public class MovementHandler : MonoBehaviour
 {
     //parameters
-    [SerializeField] float _moveSpeed = 2f;
+    [SerializeField] float _moveSpeed_Starting = 2f;
 
+    [SerializeField] bool _isPlayer = false;
 
     [Tooltip("Maximum time to keep a bumble")]
     [SerializeField] float _maxBumbleTime = 3f;
@@ -16,23 +17,34 @@ public class MovementHandler : MonoBehaviour
     [Tooltip("Minimum time to keep a bumble")]
     [SerializeField] float _minBumbleTime = 1f;
 
-    [Tooltip("Multiplier for bumble vector. Should be less than MoveSpeed")]
-    [SerializeField] float _bumbleSpeed = 1f;
+    [Tooltip("Speed Multiplier for Bumble, relative to current move speed")]
+    [SerializeField] float _bumbleMultiplier = 1f;
 
     //state
+    [Header("State")]
+    [SerializeField] float _moveSpeed_Current;
+    public float MoveSpeed => _moveSpeed_Current;
+    EnemyHandler _enemyHandler;
     Tween _bumbleTween;
-    Tween _bumbleTweenY;
-
     [SerializeField] Vector2 _bumbleVector = Vector2.zero;
     [SerializeField] Vector2 _desiredVector = Vector2.zero;
     [SerializeField] Vector2 _moveVector = Vector2.zero;
+
+    private void Awake()
+    {
+        if (!_isPlayer)
+        {
+            _enemyHandler = GetComponent<EnemyHandler>();
+        }
+        _moveSpeed_Current = _moveSpeed_Starting;
+    }
 
     private void Start()
     {
         GameController.Instance.GameModeChanged += HandleGameModeChanged;
 
         _bumbleVector = UnityEngine.Random.insideUnitCircle *
-            _bumbleSpeed;
+            _bumbleMultiplier;
         CommenceNewBumbling();
     }
 
@@ -53,7 +65,9 @@ public class MovementHandler : MonoBehaviour
     private void Update()
     {
         UpdateDesiredVector();
-        _moveVector = (_desiredVector * _moveSpeed) + (_bumbleVector * _bumbleSpeed);
+
+        _moveVector = (_desiredVector * _moveSpeed_Current) +
+            (_bumbleVector * _bumbleMultiplier * _moveSpeed_Current);
 
         UpdatePosition();
 
@@ -69,9 +83,25 @@ public class MovementHandler : MonoBehaviour
 
     private void UpdateDesiredVector()
     {
-        _desiredVector.x = Input.GetAxis("Horizontal");
-        _desiredVector.y = Input.GetAxis("Vertical");
-        _desiredVector.Normalize();
+        if (_isPlayer)
+        {
+            _desiredVector.x = Input.GetAxis("Horizontal");
+            _desiredVector.y = Input.GetAxis("Vertical");
+            _desiredVector.Normalize();
+        }
+        else
+        {
+            if (_enemyHandler.TargetTransform)
+            {
+                _desiredVector = (_enemyHandler.TargetTransform.position - transform.position).normalized;
+            }
+            else
+            {
+                _desiredVector = Vector2.zero;
+            }
+
+        }
+
     }
 
     private void UpdatePosition()
@@ -87,6 +117,11 @@ public class MovementHandler : MonoBehaviour
             enabled = true;
         }
         else enabled = false;
+    }
+
+    public void SetMoveSpeed(float newMoveSpeed)
+    {
+        _moveSpeed_Starting = newMoveSpeed;
     }
 
 

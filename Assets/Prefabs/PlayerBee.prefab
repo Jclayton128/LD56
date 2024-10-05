@@ -281,6 +281,7 @@ GameObject:
   - component: {fileID: 5393746169982264003}
   - component: {fileID: 2443319750854771433}
   - component: {fileID: 2784891567362774209}
+  - component: {fileID: 6216735384942635030}
   m_Layer: 7
   m_Name: PlayerBee
   m_TagString: Untagged
@@ -345,7 +346,7 @@ SpriteRenderer:
   m_SortingLayerID: 241481025
   m_SortingLayer: 4
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 29082aaa1824fd0479e6b063e7af393c, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 4deafca9832ecf940bd133230687f248, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -369,9 +370,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _moveSpeed: 3
+  _isPlayer: 1
   _maxBumbleTime: 3
   _minBumbleTime: 1
-  _bumbleSpeed: 2
+  _bumbleSpeed: 3
   _bumbleVector: {x: 0, y: 0}
   _desiredVector: {x: 0, y: 0}
   _moveVector: {x: 0, y: 0}
@@ -452,6 +454,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _requestedBeeContexts: 
+--- !u!114 &6216735384942635030
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4990873064931489156}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d1b46538db69c5546bc6629cc0c7cc4b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _allegiance: 0
 --- !u!1 &5366964715471115616
 GameObject:
   m_ObjectHideFlags: 0
