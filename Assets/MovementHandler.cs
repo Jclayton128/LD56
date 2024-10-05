@@ -121,7 +121,7 @@ public class MovementHandler : MonoBehaviour
 
     public void SetMoveSpeed(float newMoveSpeed)
     {
-        _moveSpeed_Starting = newMoveSpeed;
+        _moveSpeed_Current = newMoveSpeed;
     }
 
 

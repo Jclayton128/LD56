@@ -66,7 +66,7 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Radius: 6
+  m_Radius: 5
 --- !u!1 &2617509783422946248
 GameObject:
   m_ObjectHideFlags: 0
@@ -147,12 +147,12 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 29082aaa1824fd0479e6b063e7af393c, type: 3}
-  m_Color: {r: 1, g: 0, b: 0, a: 1}
+  m_Sprite: {fileID: 21300000, guid: 4deafca9832ecf940bd133230687f248, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1.46, y: 1.19}
+  m_Size: {x: 1, y: 1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -166,7 +166,7 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2617509783422946248}
-  m_BodyType: 0
+  m_BodyType: 1
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
@@ -197,11 +197,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8181c5e4f7c360d4fb134a1f691624c2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _moveSpeed: 3
+  _moveSpeed_Starting: 2
   _isPlayer: 0
   _maxBumbleTime: 3
   _minBumbleTime: 1
-  _bumbleSpeed: 3
+  _bumbleMultiplier: 1
+  _moveSpeed_Current: 0
   _bumbleVector: {x: 0, y: 0}
   _desiredVector: {x: 0, y: 0}
   _moveVector: {x: 0, y: 0}
@@ -245,7 +246,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _sr: {fileID: 2977740278995539816}
   _timeToBecomeAngry: 3
-  _angryColor: {r: 0.9245283, g: 0.53640085, b: 0.53640085, a: 1}
+  _angryColor: {r: 1, g: 0, b: 0, a: 1}
+  _speedWhenAngry: 5
 --- !u!1 &2976611016209861283
 GameObject:
   m_ObjectHideFlags: 0
