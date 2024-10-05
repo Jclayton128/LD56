@@ -87,6 +87,7 @@ public class PanelDriver : MonoBehaviour
 
     public void ActivatePanel(bool shouldMoveInstantly)
     {
+        gameObject.SetActive(true);
         MovePanel(_activePosition, shouldMoveInstantly);
         ToggleButtons(true);
         if (_fadeWhenRested) FadeUnfadePanel(false, shouldMoveInstantly);
@@ -97,8 +98,13 @@ public class PanelDriver : MonoBehaviour
         MovePanel(_restPosition, shouldMoveInstantly);
         ToggleButtons(false);
         if (_fadeWhenRested) FadeUnfadePanel(true, shouldMoveInstantly);
+        Invoke(nameof(HandleRestPanelCompleted), _moveTime*.99f);
     }
 
+    private void HandleRestPanelCompleted()
+    {
+        gameObject.SetActive(false);
+    }
 
     private void MovePanel(Vector2 destination, bool shouldMoveInstantly)
     {
@@ -109,7 +115,7 @@ public class PanelDriver : MonoBehaviour
         }
         else
         {
-            _rect.DOAnchorPos(destination, _moveTime).SetEase(Ease.InOutQuad);
+            _moveTween = _rect.DOAnchorPos(destination, _moveTime).SetEase(Ease.InOutQuad);
         }
         PushTweenCompletionTime(_moveTime);
     }

@@ -30,6 +30,20 @@ public class HarvestHandler : MonoBehaviour
         _contextHandler = GetComponent<ContextHandler>();
     }
 
+    private void Start()
+    {
+        GameController.Instance.GameModeChanged += HandleGameModeChanged;
+    }
+
+    private void HandleGameModeChanged(GameController.GameModes newGameMode)
+    {
+        if (newGameMode == GameController.GameModes.Flying)
+        {
+            enabled = true;
+        }
+        else enabled = false;
+    }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         FlowerHandler fh;
@@ -131,6 +145,7 @@ public class HarvestHandler : MonoBehaviour
             //_pollenLoad += 1f;
         }
         PollenFactorChanged?.Invoke();
+
     }
 
     private void DepositPollen()
@@ -140,6 +155,7 @@ public class HarvestHandler : MonoBehaviour
 
         _contextHandler.RemoveAvailableContext(ContextHandler.BeeContexts.DepositPollenAtHive);
         PollenFactorChanged?.Invoke();
+        GameController.Instance.SetGameMode(GameController.GameModes.Upgrading);
     }
 
 

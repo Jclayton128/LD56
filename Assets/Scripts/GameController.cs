@@ -8,7 +8,9 @@ public class GameController : MonoBehaviour
     public static GameController Instance { get; private set; }
     public Action NewGameStarted;
 
-    public enum GameModes { Intro, TitleMenu, CoreGameLoop, GameOver, Credits, Options}
+    public enum GameModes { Intro, TitleMenu, Flying, Upgrading, Recruiting,
+        GameOver, Credits, Options,
+}
     public Action<GameModes> GameModeChanged;
 
 
@@ -57,7 +59,7 @@ public class GameController : MonoBehaviour
 
     public void Handle_NewGamePress()
     {
-        SetGameMode(GameModes.CoreGameLoop);
+        SetGameMode(GameModes.Flying);
         NewGameStarted?.Invoke();
     }
 
@@ -78,7 +80,7 @@ public class GameController : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.Alpha3))
         {
-            SetGameMode(GameModes.CoreGameLoop);
+            SetGameMode(GameModes.Flying);
         }
         if (Input.GetKeyDown(KeyCode.Alpha4))
         {

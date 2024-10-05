@@ -29,6 +29,8 @@ public class MovementHandler : MonoBehaviour
 
     private void Start()
     {
+        GameController.Instance.GameModeChanged += HandleGameModeChanged;
+
         _bumbleVector = UnityEngine.Random.insideUnitCircle *
             _bumbleSpeed;
         CommenceNewBumbling();
@@ -56,12 +58,12 @@ public class MovementHandler : MonoBehaviour
         UpdatePosition();
 
 
-        Debug.DrawLine(transform.position, transform.position + (Vector3)_bumbleVector,
-            Color.blue);
-        Debug.DrawLine(transform.position, transform.position + (Vector3)_desiredVector,
-            Color.yellow);        
-        Debug.DrawLine(transform.position, transform.position + (Vector3)_moveVector,
-            Color.green);
+        //Debug.DrawLine(transform.position, transform.position + (Vector3)_bumbleVector,
+        //    Color.blue);
+        //Debug.DrawLine(transform.position, transform.position + (Vector3)_desiredVector,
+        //    Color.yellow);        
+        //Debug.DrawLine(transform.position, transform.position + (Vector3)_moveVector,
+        //    Color.green);
 
     }
 
@@ -76,4 +78,16 @@ public class MovementHandler : MonoBehaviour
     {
         transform.position += (Vector3)_moveVector * Time.deltaTime;
     }
+
+
+    private void HandleGameModeChanged(GameController.GameModes newGameMode)
+    {
+        if (newGameMode == GameController.GameModes.Flying)
+        {
+            enabled = true;
+        }
+        else enabled = false;
+    }
+
+
 }
