@@ -7,6 +7,9 @@ public class HarvestHandler : MonoBehaviour
 {
     public Action PollenFactorChanged;
 
+    //refs
+    ContextHandler _contextHandler;
+
     //settings
     [SerializeField] float _pollenCapacity_Starting = 10f;
     [SerializeField] BeeUIDriver _beeUIDriver = null;
@@ -22,18 +25,13 @@ public class HarvestHandler : MonoBehaviour
     private void Awake()
     {
         _pollenCapacity_Current = _pollenCapacity_Starting;
+        _contextHandler = GetComponent<ContextHandler>();
     }
-
-    private void Start()
-    {
-        UIController.Instance.SetContextText(" ");
-    }
-
 
     private void OnTriggerEnter2D(Collider2D collision)
-    {
-        UIController.Instance.SetContextText("Space to Harvest");
+    {        
         _flowersInRange.Add(collision.gameObject);
+        _contextHandler.AddAvailableContext(ContextHandler.BeeContexts.Harvest);
     }
 
     private void OnTriggerExit2D(Collider2D collision)
@@ -41,7 +39,7 @@ public class HarvestHandler : MonoBehaviour
         _flowersInRange.Remove(collision.gameObject);
         if (_flowersInRange.Count == 0)
         {
-            UIController.Instance.SetContextText(" ");
+            _contextHandler.RemoveAvailableContext(ContextHandler.BeeContexts.Harvest);
         }
     }
 

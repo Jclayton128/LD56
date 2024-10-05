@@ -134,8 +134,8 @@ Canvas:
   m_VertexColorAlwaysGammaSpace: 0
   m_AdditionalShaderChannelsFlag: 0
   m_UpdateRectTransformForStandalone: 0
-  m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingLayerID: 241481025
+  m_SortingOrder: 1
   m_TargetDisplay: 0
 --- !u!114 &6655072784003831052
 MonoBehaviour:
@@ -280,6 +280,7 @@ GameObject:
   - component: {fileID: 4507045693329364940}
   - component: {fileID: 5393746169982264003}
   - component: {fileID: 2443319750854771433}
+  - component: {fileID: 2784891567362774209}
   m_Layer: 7
   m_Name: Bee
   m_TagString: Untagged
@@ -436,6 +437,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _pollenSlider: {fileID: 854465807500734384}
+--- !u!114 &2784891567362774209
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4990873064931489156}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dcd316e1b93b9814aacd746d132a5711, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _requestedBeeContexts: 
 --- !u!1 &5366964715471115616
 GameObject:
   m_ObjectHideFlags: 0

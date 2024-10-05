@@ -57,7 +57,7 @@ public class PanelDriver : MonoBehaviour
 
     private void FindAllImageElements()
     {
-        if (!_isInitialized) Debug.LogWarning("Panel has not been initialized!");
+        
         var imageElements = GetComponentsInChildren<Image>();
         foreach (var image in imageElements)
         {
