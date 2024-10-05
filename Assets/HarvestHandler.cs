@@ -12,7 +12,6 @@ public class HarvestHandler : MonoBehaviour
 
     //settings
     [SerializeField] float _pollenCapacity_Starting = 10f;
-    [SerializeField] BeeUIDriver _beeUIDriver = null;
 
 
     //state

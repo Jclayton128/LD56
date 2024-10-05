@@ -13,6 +13,9 @@ public class GameController : MonoBehaviour
 }
     public Action<GameModes> GameModeChanged;
 
+    //settings
+    [SerializeField] float _pollenGoal = 50f;
+    public float PollenGoal => _pollenGoal;
 
     //state
     GameModes _gameMode = GameModes.Intro;
@@ -45,6 +48,7 @@ public class GameController : MonoBehaviour
         }
     }
 
+
     public void SetGameMode(GameModes newGameMode)
     {
         if (UIController.Instance.IsUIActivelyTweening)
@@ -66,6 +70,18 @@ public class GameController : MonoBehaviour
     private void Update()
     {
         ListenForDebug();
+        ListenForGameStart();
+    }
+
+    private void ListenForGameStart()
+    {
+        if (_gameMode == GameModes.TitleMenu)
+        {
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                Handle_NewGamePress();
+            }
+        } 
     }
 
     private void ListenForDebug()

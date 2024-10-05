@@ -19,7 +19,7 @@ public class UIController : MonoBehaviour
     [SerializeField] PanelDriver[] _gameOverPanel = null;
     [SerializeField] PanelDriver[] _creditsPanel = null;
     [SerializeField] PanelDriver[] _optionsPanel = null;
-    [SerializeField] TextMeshProUGUI _contextTMP = null;
+    //
 
     /// <summary>
     /// TRUE anytime a tween commanded by this UI Controller is still active. 
@@ -174,11 +174,6 @@ public class UIController : MonoBehaviour
         }       
     }
 
-
-    public void SetContextText(string text)
-    {
-        _contextTMP.text = text;
-    }
 
 
 }
