@@ -13,6 +13,7 @@ public class HarvestHandler : MonoBehaviour
     //settings
     [SerializeField] float _pollenCapacity_Starting = 10f;
     [SerializeField] BeeUIDriver _beeUIDriver = null;
+	[SerializeField] private AudioClip pollenCollectClip;
 
 
     //state
@@ -127,6 +128,9 @@ public class HarvestHandler : MonoBehaviour
             //_pollenLoad += 1f;
         }
         PollenFactorChanged?.Invoke();
+		
+		//play sound fx
+		SoundFXManager.instance.PlaySoundFXClip(pollenCollectClip, transform, 1f);
     }
 
     private void DepositPollen()
