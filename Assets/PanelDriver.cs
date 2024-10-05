@@ -36,6 +36,7 @@ public class PanelDriver : MonoBehaviour
     UIController _uiCon;
     Tween _moveTween;
     RectTransform _rect;
+    List<Button> _buttonElements = new List<Button>();
     Dictionary<Image, Color> _imageElements = new Dictionary<Image, Color>();
     Dictionary<TextMeshProUGUI, Color> _textElements = new Dictionary<TextMeshProUGUI, Color>();
     Dictionary<Image, Tween> _imageTweens = new Dictionary<Image, Tween>();
@@ -48,6 +49,7 @@ public class PanelDriver : MonoBehaviour
         _rect = GetComponent<RectTransform>();
         FindAllImageElements();
         FindAllTextElements();
+        FindAllButtonElements();
         FadeUnfadePanel(_startsFaded, true);
         _restPosition = _rect.anchoredPosition;
         _isInitialized = true;
@@ -74,17 +76,29 @@ public class PanelDriver : MonoBehaviour
         }
     }
 
+    private void FindAllButtonElements()
+    {
+        var buttonElements = GetComponentsInChildren<Button>();
+        foreach (var buttonElement in buttonElements)
+        {
+            _buttonElements.Add(buttonElement);
+        }
+    }
+
     public void ActivatePanel(bool shouldMoveInstantly)
     {
         MovePanel(_activePosition, shouldMoveInstantly);
+        ToggleButtons(true);
         if (_fadeWhenRested) FadeUnfadePanel(false, shouldMoveInstantly);
     }
 
     public void RestPanel(bool shouldMoveInstantly)
     {
         MovePanel(_restPosition, shouldMoveInstantly);
+        ToggleButtons(false);
         if (_fadeWhenRested) FadeUnfadePanel(true, shouldMoveInstantly);
     }
+
 
     private void MovePanel(Vector2 destination, bool shouldMoveInstantly)
     {
@@ -100,6 +114,13 @@ public class PanelDriver : MonoBehaviour
         PushTweenCompletionTime(_moveTime);
     }
 
+    private void ToggleButtons(bool shouldBeSelectable)
+    {
+        foreach (var button in _buttonElements)
+        {
+            button.interactable = shouldBeSelectable;
+        }
+    }
     private void FadeUnfadePanel(bool shouldBeFaded, bool shouldFadeInstantly)
     {
         if (shouldBeFaded)

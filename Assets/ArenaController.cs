@@ -12,6 +12,7 @@ public class ArenaController : MonoBehaviour
     public ArenaController Instance { get; private set; }
 
     //settings
+    
     [SerializeField] float _maxArenaRadius = 40f;
     [SerializeField] int _numberOfFlowers = 20;
     [SerializeField] float _minDistanceBetweenFlowers = 2f;
@@ -20,7 +21,6 @@ public class ArenaController : MonoBehaviour
     [SerializeField] float _minDistanceBetweenHives = 10f;
 
     [SerializeField] float _minDistanceFromHiveToFlower = 10f;
-
 
     //state
     GameObject _arena;
@@ -47,7 +47,6 @@ public class ArenaController : MonoBehaviour
     {
         ClearExistingArena();
 
-
         _arena = Instantiate(new GameObject());
         _arena.name = "Arena";
 
@@ -59,7 +58,7 @@ public class ArenaController : MonoBehaviour
         GenerateHomeHive();
         GenerateEnemyHives();
 
-        DestroyFlowersTooCloseToHives();
+        //DestroyFlowersTooCloseToHives();
     }
 
 
@@ -67,7 +66,7 @@ public class ArenaController : MonoBehaviour
     {
         _homeHive = Instantiate(ArenaObjectLibrary.Instance.GetHive(0));
         _allHivesPoints.Add(_homeHive.transform.position);
-        _homeHive.transform.parent = transform.parent;
+        _homeHive.transform.parent = _arena.transform;
     }
 
     private void GenerateEnemyHives()
@@ -85,7 +84,7 @@ public class ArenaController : MonoBehaviour
                 ArenaObjectLibrary.Instance.GetHive(i + 1),
                 pos, Quaternion.identity);
 
-            newHive.transform.parent = transform.parent;
+            newHive.transform.parent = _arena.transform;
 
             _enemyHives.Add(newHive);
             _allHivesPoints.Add(newHive.transform.position);
