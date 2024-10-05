@@ -9,5 +9,6 @@ public class HiveHandler : MonoBehaviour
     public void DepositPollen(float pollenToOffload)
     {
         _pollenInHive += pollenToOffload;
+        Debug.Log($"Deposited {pollenToOffload}. Now have {_pollenInHive}");
     }
 }

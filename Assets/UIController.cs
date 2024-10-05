@@ -8,6 +8,8 @@ using TMPro;
 public class UIController : MonoBehaviour
 {
     public static UIController Instance { get; private set; }
+    public Action AllActiveTweensCompleted;
+    
 
     [SerializeField] PanelDriver[] _introPanel = null;
     [SerializeField] PanelDriver[] _titlePanel = null;
@@ -116,6 +118,7 @@ public class UIController : MonoBehaviour
             if (Time.time >= _timeThatTweensWillBeComplete)
             {
                 IsUIActivelyTweening = false;
+                AllActiveTweensCompleted?.Invoke();
             }
         }
 

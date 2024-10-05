@@ -51,7 +51,11 @@ public class HarvestHandler : MonoBehaviour
         {
             //TODO check allegiance to make sure that the player is near a friendly hive.
             _hiveHandler = hh;
-            _contextHandler.AddAvailableContext(ContextHandler.BeeContexts.DepositPollenAtHive);
+
+            if (_pollenLoad > 0)
+            {
+                _contextHandler.AddAvailableContext(ContextHandler.BeeContexts.DepositPollenAtHive);
+            }           
         }
 
     }
@@ -133,6 +137,7 @@ public class HarvestHandler : MonoBehaviour
     {
         _hiveHandler.DepositPollen(_pollenLoad);
         _pollenLoad = 0;
+
         _contextHandler.RemoveAvailableContext(ContextHandler.BeeContexts.DepositPollenAtHive);
         PollenFactorChanged?.Invoke();
     }

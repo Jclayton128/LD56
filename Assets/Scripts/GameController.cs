@@ -15,12 +15,32 @@ public class GameController : MonoBehaviour
     //state
     GameModes _gameMode = GameModes.Intro;
     public GameModes GameMode => _gameMode;
-
+    bool _hasIntroOccurred = false;
     
 
     private void Awake()
     {
         Instance = this;
+    }
+
+    private void Start()
+    {
+        UIController.Instance.AllActiveTweensCompleted += HandleAllActiveTweensCompleted;
+        Invoke(nameof(Delay_CueIntro), 0.01f);
+    }
+
+    private void Delay_CueIntro()
+    {
+        SetGameMode(GameModes.Intro);
+    }
+
+    private void HandleAllActiveTweensCompleted()
+    {
+        if (!_hasIntroOccurred)
+        {
+            SetGameMode(GameModes.TitleMenu);
+            _hasIntroOccurred = true;
+        }
     }
 
     public void SetGameMode(GameModes newGameMode)
