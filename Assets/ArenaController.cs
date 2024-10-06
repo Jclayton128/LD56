@@ -19,9 +19,11 @@ public class ArenaController : MonoBehaviour
     [SerializeField] float _minDistanceBetweenFlowers = 2f;
 
     [SerializeField] int _enemyHivesToSpawn = 4;
+    [SerializeField] int _enemiesToSpawn = 8;
     [SerializeField] float _minDistanceBetweenHives = 10f;
 
-    [SerializeField] float _minDistanceFromHiveToFlower = 10f;
+    [SerializeField] float _minDistanceFromHiveToObject = 10f;
+    [SerializeField] float _minDistanceBetweenEnemies = 7f;
 
     //state
     GameObject _arena;
@@ -33,6 +35,9 @@ public class ArenaController : MonoBehaviour
 
     [SerializeField] List<FlowerHandler> _allFlowers = new List<FlowerHandler>();
     [SerializeField] List<Vector3> _allFlowersPoints = new List<Vector3>();
+
+    [SerializeField] List<EnemyHandler> _allEnemies = new List<EnemyHandler>();
+    [SerializeField] List<Vector3> _allEnemiesPoints = new List<Vector3>();
 
     private void Awake()
     {
@@ -59,8 +64,14 @@ public class ArenaController : MonoBehaviour
 
         GenerateHomeHive();
         GenerateEnemyHives();
+        
+        for (int i = 0; i < _enemiesToSpawn; i++)
+        {
+            GenerateRandomEnemy();
+        }
 
         DestroyFlowersTooCloseToHives();
+        DestroyEnemiesTooCloseToHives();
         NewArenaGenerated?.Invoke();
     }
 
@@ -121,11 +132,29 @@ public class ArenaController : MonoBehaviour
         _allFlowersPoints.Add(go.transform.position);
     }
 
+    public void GenerateRandomEnemy()
+    {
+        Vector2 pos = CUR.GetRandomPosWithinArenaAwayFromOtherPoints(
+            Vector2.zero,
+            _maxArenaRadius,
+            _allEnemiesPoints,
+            _minDistanceBetweenEnemies);
+
+        EnemyHandler go = Instantiate(
+            ArenaObjectLibrary.Instance.GetRandomEnemy(),
+            pos, Quaternion.identity).GetComponent<EnemyHandler>();
+
+        go.transform.parent = _arena.transform;
+
+        _allEnemies.Add(go);
+        _allEnemiesPoints.Add(go.transform.position);
+    }
+
     private void DestroyFlowersTooCloseToHives()
     {
         foreach (var hive in _allHivesPoints)
         {
-            var hits = Physics2D.OverlapCircleAll(hive, _minDistanceFromHiveToFlower);
+            var hits = Physics2D.OverlapCircleAll(hive, _minDistanceFromHiveToObject);
             for (int i = hits.Length - 1; i >= 0; i--)
             {
                 FlowerHandler fh;
@@ -138,21 +167,25 @@ public class ArenaController : MonoBehaviour
 
             }
         }
+    }
 
-        //float dist;
-        //for (int i = _allFlowers.Count - 1; i >= 0; i--)
-        //{
-        //    for (int j = 0; j < _allHivesPoints.Count; i++)
-        //    {
-        //        dist = (_allFlowers[i].transform.position - _allHivesPoints[j]).magnitude;
-        //        if (dist <= _minDistanceFromHiveToFlower)
-        //        {
-        //            Destroy(_allFlowers[i].gameObject);
-        //            break;
-        //        }
-        //    }
+    private void DestroyEnemiesTooCloseToHives()
+    {
+        foreach (var hive in _allHivesPoints)
+        {
+            var hits = Physics2D.OverlapCircleAll(hive, _minDistanceFromHiveToObject);
+            for (int i = hits.Length - 1; i >= 0; i--)
+            {
+                EnemyHandler fh;
+                if (hits[i].TryGetComponent<EnemyHandler>(out fh))
+                {
+                    _allEnemies.Remove(fh);
+                    _allEnemiesPoints.Remove(fh.transform.position);
+                    Destroy(hits[i].gameObject);
+                }
 
-        //}
+            }
+        }
     }
 
 }

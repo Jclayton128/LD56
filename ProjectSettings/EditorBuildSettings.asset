@@ -8,4 +8,7 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Deckbuilding/Deckbuilding.unity
     guid: 2cda990e2423bbf4892e6590ba056729
+  - enabled: 1
+    path: Assets/MainScene.unity
+    guid: 59c4adac5a0afb346a2b9a83b0150e8e
   m_configObjects: {}

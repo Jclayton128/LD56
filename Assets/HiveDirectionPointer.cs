@@ -27,6 +27,12 @@ public class HiveDirectionPointer : MonoBehaviour
     {
         ArenaController.Instance.NewArenaGenerated += HandleNewArenaGenerated;
         PlayerController.Instance.NewPlayerSpawned += HandleNewPlayerSpawned;
+        GameController.Instance.GameModeChanged += HandleGameModeChanged;
+    }
+
+    private void HandleGameModeChanged(GameController.GameModes obj)
+    {
+        MakeFaded();
     }
 
     private void HandleNewPlayerSpawned()
