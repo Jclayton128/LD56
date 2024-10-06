@@ -8,6 +8,8 @@ public class GameController : MonoBehaviour
     public static GameController Instance { get; private set; }
     public Action NewGameStarted;
 
+    public int NumFollowers { get; set; } = 0;
+
     public enum GameModes { Intro, TitleMenu, Flying, Upgrading, Recruiting,
         GameOver, Credits, Options,
 }
