@@ -24,6 +24,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: Flower_Surprise
       objectReference: {fileID: 0}
+    - target: {fileID: 4814802794079852186, guid: 9c982e057c6ef6449a1a9e36cc2010fd, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.02
+      objectReference: {fileID: 0}
+    - target: {fileID: 4814802794079852186, guid: 9c982e057c6ef6449a1a9e36cc2010fd, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -1.677
+      objectReference: {fileID: 0}
     - target: {fileID: 7344108316836892617, guid: 9c982e057c6ef6449a1a9e36cc2010fd, type: 3}
       propertyPath: m_LocalPosition.y
       value: -0.25

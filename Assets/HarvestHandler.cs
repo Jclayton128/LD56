@@ -161,5 +161,9 @@ public class HarvestHandler : MonoBehaviour
         GameController.Instance.SetGameMode(GameController.GameModes.Upgrading);
     }
 
+    private void OnDestroy()
+    {
+        GameController.Instance.GameModeChanged -= HandleGameModeChanged;
+    }
 
 }

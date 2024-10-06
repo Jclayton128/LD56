@@ -100,7 +100,7 @@ GameObject:
   - component: {fileID: 8588899915670466476}
   - component: {fileID: -8776953254760702965}
   m_Layer: 7
-  m_Name: Wasp
+  m_Name: Spider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -121,7 +121,6 @@ Transform:
   m_Children:
   - {fileID: 4020109164404868198}
   - {fileID: 5193623197293901205}
-  - {fileID: 1800850601034706337}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &2977740278995539816
@@ -162,10 +161,10 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: -1678916119
-  m_SortingLayer: 3
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: -1723021706, guid: dca935a50f448094dae1e2d07f4aee55, type: 3}
+  m_Sprite: {fileID: 973563822, guid: 932bdb6aa031741418ac17a6807cb074, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -219,7 +218,7 @@ MonoBehaviour:
   _isPlayer: 0
   _maxBumbleTime: 3
   _minBumbleTime: 1
-  _bumbleMultiplier: 1
+  _bumbleMultiplier: 0
   _moveSpeed_Current: 0
   _bumbleVector: {x: 0, y: 0}
   _desiredVector: {x: 0, y: 0}
@@ -260,7 +259,7 @@ Animator:
   m_GameObject: {fileID: 2617509783422946248}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: cbb4a4856aa243944b2d5ea67506ab7a, type: 2}
+  m_Controller: {fileID: 9100000, guid: ae2a012be03918943bb914203624499b, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -367,65 +366,3 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _hitpoints: 1
---- !u!1001 &5986582827833009226
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 997315439017340873}
-    m_Modifications:
-    - target: {fileID: 320734977013416059, guid: 7354e647e0b83464da11d6c08d6baf3d, type: 3}
-      propertyPath: m_Name
-      value: DropShadow
-      objectReference: {fileID: 0}
-    - target: {fileID: 5470032181080902123, guid: 7354e647e0b83464da11d6c08d6baf3d, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5470032181080902123, guid: 7354e647e0b83464da11d6c08d6baf3d, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -0.32
-      objectReference: {fileID: 0}
-    - target: {fileID: 5470032181080902123, guid: 7354e647e0b83464da11d6c08d6baf3d, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5470032181080902123, guid: 7354e647e0b83464da11d6c08d6baf3d, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5470032181080902123, guid: 7354e647e0b83464da11d6c08d6baf3d, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5470032181080902123, guid: 7354e647e0b83464da11d6c08d6baf3d, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5470032181080902123, guid: 7354e647e0b83464da11d6c08d6baf3d, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5470032181080902123, guid: 7354e647e0b83464da11d6c08d6baf3d, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5470032181080902123, guid: 7354e647e0b83464da11d6c08d6baf3d, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5470032181080902123, guid: 7354e647e0b83464da11d6c08d6baf3d, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 7354e647e0b83464da11d6c08d6baf3d, type: 3}
---- !u!4 &1800850601034706337 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 5470032181080902123, guid: 7354e647e0b83464da11d6c08d6baf3d, type: 3}
-  m_PrefabInstance: {fileID: 5986582827833009226}
-  m_PrefabAsset: {fileID: 0}
