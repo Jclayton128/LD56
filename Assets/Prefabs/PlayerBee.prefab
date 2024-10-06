@@ -342,7 +342,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _pollenCapacity_Starting: 10
   _beeUIDriver: {fileID: 0}
-  pollenCollectClip: {fileID: 0}
+  pollenCollectClip: {fileID: 8300000, guid: bf964fe06b8e69d4f9d0135790cdcd8f, type: 3}
   _harvestableFlowersInRange: []
   _pollenLoad: 0
   _hiveHandler: {fileID: 0}

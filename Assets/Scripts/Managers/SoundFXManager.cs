@@ -31,10 +31,10 @@ public class SoundFXManager : MonoBehaviour
 		audioSource.Play();
 		
 		//get length of sound FX clip
-		float cliplength = audioSource.clip.length;
+		float clipLength = audioSource.clip.length;
 		
 		//destroy the clip after it is done playing
-		Destroy(audioSource.gameObject, cliplength);
+		Destroy(audioSource.gameObject, clipLength);
 	}
 
 
