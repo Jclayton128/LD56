@@ -30,7 +30,7 @@ namespace BeeGame
         [ContextMenu("Debug_CreateFollowers")]
         public void Debug_CreateFollowers()
         {
-            GameController.Instance.NumFollowers = 3;
+            PollenRunController.Instance.FollowerToSpawnOnNextPollenRun = 3;
             RespawnFollowers();
         }
 
@@ -39,7 +39,7 @@ namespace BeeGame
             instances.ForEach(instance => Destroy(instance));
             instances.Clear();
             _unusedFollowerBees.Clear();
-            for (int i = 0; i < GameController.Instance.NumFollowers; i++)
+            for (int i = 0; i < PollenRunController.Instance.FollowerToSpawnOnNextPollenRun; i++)
             {
                 var offset = new Vector3(
                     Random.Range(-SpawnDistance, SpawnDistance), 

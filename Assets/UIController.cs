@@ -53,6 +53,13 @@ public class UIController : MonoBehaviour
         //_optionsPanel?.InitializePanel(this);
 
         GameController.Instance.GameModeChanged += HandleGameModeChanged;
+        GameController.Instance.PauseStateChanged_isPaused += HandlePauseStateChanged;
+    }
+
+    private void HandlePauseStateChanged(bool isPaused)
+    {
+        if (isPaused) foreach (var panel in _optionsPanel) panel?.ActivatePanel(false);
+        else foreach (var panel in _optionsPanel) panel?.RestPanel(false);
     }
 
     private void HandleGameModeChanged(GameController.GameModes newGameMode)

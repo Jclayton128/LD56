@@ -1,10 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using BeeGame;
 
 public class PollenRunController : MonoBehaviour
 {
     public static PollenRunController Instance { get; private set; }
+    [SerializeField] DayManager _dayManager = null;
+
+    public int FollowerToSpawnOnNextPollenRun { get; set; } = 0;
 
     private void Awake()
     {
@@ -18,18 +22,16 @@ public class PollenRunController : MonoBehaviour
     }
     private void HandleGameModeChanged(GameController.GameModes newGameMode)
     {
-        if (newGameMode == GameController.GameModes.Recruiting)
+        if (newGameMode == GameController.GameModes.Flying)
         {
-            enabled = true;
+            //TODO setup the player for a new pollen run. Drones, pollen load, etc.
+            //TODO setup the arena for a safe initial few seconds outside the hive. Move predators away.
+            _dayManager.StartDay();
         }
-        else enabled = false;
+        else
+        {
+            _dayManager.StopDay();
+        }
     }
 
-    public void PrepareNextPollenRun(int wordsCompletedInMinigame)
-    {
-        Debug.Log($"Heading out on new Pollen Run with ${wordsCompletedInMinigame} bees in swarm");
-        GameController.Instance.SetGameMode(GameController.GameModes.Flying);
-        //TODO setup the player for a new pollen run. Drones, pollen load, etc.
-        //TODO setup the arena for a safe initial few seconds outside the hive. Move predators away.
-    }
 }

@@ -37,8 +37,14 @@ namespace BeeGame.TypingGame
             if (newGameMode == GameController.GameModes.Recruiting)
             {
                 enabled = true;
+                Invoke(nameof(Delay_StartMinigame), 0.01f);
             }
             else enabled = false;
+        }
+
+        private void Delay_StartMinigame()
+        {
+            StartMinigame();
         }
 
         private void LoadWordList()
@@ -129,9 +135,10 @@ namespace BeeGame.TypingGame
             {
                 //minigame ends
                 //TODO output number of successful words to inform number of bees in next pollen hunt
-                if (GameController.Instance != null)
+                if (GameController.Instance != null 
+                    && PollenRunController.Instance != null)
                 {
-                    GameController.Instance.NumFollowers = numWordsCompleted;
+                    PollenRunController.Instance.FollowerToSpawnOnNextPollenRun = numWordsCompleted;
                     GameController.Instance.SetGameMode(GameController.GameModes.Flying);
                 }
             }

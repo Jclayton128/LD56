@@ -61,6 +61,7 @@ public class PanelDriver : MonoBehaviour
         var imageElements = GetComponentsInChildren<Image>();
         foreach (var image in imageElements)
         {
+            if (image.GetComponent<OverridePanelDriver>()) continue;
             _imageElements.Add(image, image.color);
             _imageTweens.Add(image, null);
         }
@@ -71,6 +72,7 @@ public class PanelDriver : MonoBehaviour
         var textElements = GetComponentsInChildren<TextMeshProUGUI>();
         foreach (var textElement in textElements)
         {
+            if (textElement.GetComponent<OverridePanelDriver>()) continue;
             _textElements.Add(textElement, textElement.color);
             _textTweens.Add(textElement, null);
         }
@@ -81,6 +83,7 @@ public class PanelDriver : MonoBehaviour
         var buttonElements = GetComponentsInChildren<Button>();
         foreach (var buttonElement in buttonElements)
         {
+            if (buttonElement.GetComponent<OverridePanelDriver>()) continue;
             _buttonElements.Add(buttonElement);
         }
     }
@@ -115,7 +118,8 @@ public class PanelDriver : MonoBehaviour
         }
         else
         {
-            _moveTween = _rect.DOAnchorPos(destination, _moveTime).SetEase(Ease.InOutQuad);
+            _moveTween = _rect.DOAnchorPos(destination, _moveTime).SetEase(Ease.InOutQuad).
+                SetUpdate(true);
         }
         PushTweenCompletionTime(_moveTime);
     }
@@ -134,12 +138,14 @@ public class PanelDriver : MonoBehaviour
             foreach (var image in _imageElements.Keys)
             {
                 _imageTweens[image].Kill();
-                _imageTweens[image] = image.DOFade(0, shouldFadeInstantly ? 0 : _fadeTime);
+                _imageTweens[image] = image.DOFade(0, shouldFadeInstantly ? 0 : _fadeTime).
+                SetUpdate(true); ;
             }
             foreach (var text in _textElements.Keys)
             {
                 _textTweens[text].Kill();
-                _textTweens[text] = text.DOFade(0, shouldFadeInstantly ? 0 : _fadeTime);
+                _textTweens[text] = text.DOFade(0, shouldFadeInstantly ? 0 : _fadeTime).
+                SetUpdate(true); ;
             }
 
         }
@@ -148,12 +154,14 @@ public class PanelDriver : MonoBehaviour
             foreach (var image in _imageElements.Keys)
             {
                 _imageTweens[image].Kill();
-                _imageTweens[image] = image.DOFade(1, shouldFadeInstantly ? 0 : _fadeTime);
+                _imageTweens[image] = image.DOFade(1, shouldFadeInstantly ? 0 : _fadeTime).
+                SetUpdate(true); ;
             }
             foreach (var text in _textElements.Keys)
             {
                 _textTweens[text].Kill();
-                _textTweens[text] = text.DOFade(1, shouldFadeInstantly ? 0 : _fadeTime);
+                _textTweens[text] = text.DOFade(1, shouldFadeInstantly ? 0 : _fadeTime).
+                SetUpdate(true); ;
             }
         }
         PushTweenCompletionTime(shouldFadeInstantly ? 0 : _fadeTime);
