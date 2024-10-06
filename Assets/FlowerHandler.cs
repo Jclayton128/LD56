@@ -115,6 +115,8 @@ public class FlowerHandler : MonoBehaviour
 
     private void Update()
     {
+        if (GameController.Instance.GameMode != GameController.GameModes.Flying) return;
+
         _pollen += _pollenRegenRate * Time.deltaTime;
         _pollen = Mathf.Clamp(_pollen, 0, _maxPollenCapacity);
         if (!_isHarvestable && _pollen > _minPollenForHarvest)

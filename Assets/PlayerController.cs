@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using BeeGame;
 
 public class PlayerController : MonoBehaviour
 {
@@ -25,6 +26,15 @@ public class PlayerController : MonoBehaviour
     private void Start()
     {
         GameController.Instance.NewGameStarted += HandleNewGameStarted;
+        GameController.Instance.GameModeChanged += HandleGameModeChanged;
+    }
+
+    private void HandleGameModeChanged(GameController.GameModes newGameMode)
+    {
+        if (Player && newGameMode == GameController.GameModes.Flying)
+        {
+            Player.GetComponentInChildren<Followers>().RespawnFollowers();
+        }
     }
 
     private void HandleNewGameStarted()
