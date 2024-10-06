@@ -144,7 +144,7 @@ public class ArenaController : MonoBehaviour
             ArenaObjectLibrary.Instance.GetRandomEnemy(),
             pos, Quaternion.identity).GetComponent<EnemyHandler>();
 
-        go.transform.parent = _arena.transform;
+        //go.transform.parent = _arena.transform; //Unneccesary and confusing to have them under Arena GO
 
         _allEnemies.Add(go);
         _allEnemiesPoints.Add(go.transform.position);

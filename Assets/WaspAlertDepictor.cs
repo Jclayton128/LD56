@@ -19,8 +19,8 @@ public class WaspAlertDepictor : MonoBehaviour
 
     private void Start()
     {
-        _eh = GetComponent<EnemyHandler>();
-        _moveHandler = GetComponent<MovementHandler>();
+        _eh = GetComponentInParent<EnemyHandler>();
+        _moveHandler = GetComponentInParent<MovementHandler>();
         _eh.TargetChanged += HandleTargetChanged;
         HandleTargetChanged();
         _normalSpeed = _moveHandler.MoveSpeed;

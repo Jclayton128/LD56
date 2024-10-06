@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5193623197293901205}
   - component: {fileID: 3208078072589496993}
+  - component: {fileID: 1580132103942772073}
   m_Layer: 7
   m_Name: BeeDetector
   m_TagString: Untagged
@@ -67,6 +68,22 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 5
+--- !u!114 &1580132103942772073
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1520605670271542845}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2996cb97f77784f4eb9635ba43fa7551, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _sr: {fileID: 2977740278995539816}
+  _timeToBecomeAngry: 3
+  _angryColor: {r: 1, g: 0, b: 0, a: 1}
+  _speedWhenAngry: 5
 --- !u!1 &2617509783422946248
 GameObject:
   m_ObjectHideFlags: 0
@@ -81,7 +98,6 @@ GameObject:
   - component: {fileID: 8726572824077715043}
   - component: {fileID: 1685271337915257185}
   - component: {fileID: 8588899915670466476}
-  - component: {fileID: 5871361139828716712}
   m_Layer: 7
   m_Name: Wasp
   m_TagString: Untagged
@@ -197,11 +213,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8181c5e4f7c360d4fb134a1f691624c2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _moveSpeed_Starting: 2
+  _moveSpeed_Starting: 1
   _isPlayer: 0
   _maxBumbleTime: 3
   _minBumbleTime: 1
-  _bumbleMultiplier: 1
+  _bumbleMultiplier: 0
   _moveSpeed_Current: 0
   _bumbleVector: {x: 0, y: 0}
   _desiredVector: {x: 0, y: 0}
@@ -232,22 +248,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _allegiance: 4
---- !u!114 &5871361139828716712
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2617509783422946248}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2996cb97f77784f4eb9635ba43fa7551, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _sr: {fileID: 2977740278995539816}
-  _timeToBecomeAngry: 3
-  _angryColor: {r: 1, g: 0, b: 0, a: 1}
-  _speedWhenAngry: 5
 --- !u!1 &2976611016209861283
 GameObject:
   m_ObjectHideFlags: 0
@@ -257,7 +257,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4020109164404868198}
-  - component: {fileID: 2298109986907780758}
+  - component: {fileID: 3081222246988627173}
+  - component: {fileID: 427371336756685348}
+  - component: {fileID: 5599804970295609821}
   m_Layer: 7
   m_Name: DamageDealer
   m_TagString: Untagged
@@ -280,7 +282,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 997315439017340873}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!58 &2298109986907780758
+--- !u!58 &3081222246988627173
 CircleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -315,3 +317,30 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.5
+--- !u!114 &427371336756685348
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2976611016209861283}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9c51f2a2e13f4044eaf7000b43ba09b0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _damageToInflict: 1
+  _attackingKillsSelf: 1
+--- !u!114 &5599804970295609821
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2976611016209861283}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c61775231722e3940828478d6d71dd71, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _hitpoints: 1

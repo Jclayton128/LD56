@@ -23,7 +23,7 @@ public class EnemyHandler : MonoBehaviour
     {
         if (TargetTransform != null) return;
         AllegianceHandler ah;
-        if (collision.TryGetComponent<AllegianceHandler>(out ah))
+        if (collision.transform.parent.TryGetComponent<AllegianceHandler>(out ah))
         {
             if (ah.Allegiance != _allegianceHandler.Allegiance)
             {

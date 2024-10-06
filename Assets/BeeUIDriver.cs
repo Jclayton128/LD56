@@ -7,11 +7,10 @@ using UnityEngine.UI;
 public class BeeUIDriver : MonoBehaviour
 {
     [SerializeField] Slider _pollenSlider = null;
-    HarvestHandler _harvestHandler;
+    [SerializeField] HarvestHandler _harvestHandler = null;
 
     private void Start()
     {
-        _harvestHandler = GetComponentInParent<HarvestHandler>();
         _harvestHandler.PollenFactorChanged += HandlePollenChanged;
         HandlePollenChanged();
     }

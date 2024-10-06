@@ -124,5 +124,9 @@ public class MovementHandler : MonoBehaviour
         _moveSpeed_Current = newMoveSpeed;
     }
 
+    private void OnDestroy()
+    {
+        GameController.Instance.GameModeChanged -= HandleGameModeChanged;
+    }
 
 }
