@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 2dea2057ecb5b7644818ae3d93933e31
+guid: a702ce4a82d74794b90284588cf37017
 TrueTypeFontImporter:
   externalObjects: {}
   serializedVersion: 4
@@ -9,7 +9,7 @@ TrueTypeFontImporter:
   characterPadding: 1
   includeFontData: 1
   fontNames:
-  - Honey Bee PERSONAL USE ONLY!
+  - Busy-Bee
   fallbackFontReferences: []
   customCharacters: 
   fontRenderingMode: 0

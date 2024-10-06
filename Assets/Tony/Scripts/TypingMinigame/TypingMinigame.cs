@@ -11,17 +11,34 @@ namespace BeeGame.TypingGame
 
         [SerializeField] private Honeycomb honeycomb;
         [SerializeField] private Slider slider;
+        [SerializeField] private Slider wordCountSlider;
         [SerializeField] private TextAsset wordListAsset;
 
+        private const int MaxWords = 10;
+
         private List<string> wordList;
-        private int currentWordIndex = 0;
+        private int currentWordIndex;
         private string currentWord;
-        private int currentLetterIndex = 0;
+        private int currentLetterIndex;
+        private int numWordsCompleted;
 
         private void Start()
         {
+            if (GameController.Instance != null)
+            {
+                GameController.Instance.GameModeChanged += HandleGameModeChanged;
+            }
             LoadWordList();
             StartMinigame();
+        }
+
+        private void HandleGameModeChanged(GameController.GameModes newGameMode)
+        {
+            if (newGameMode == GameController.GameModes.Recruiting)
+            {
+                enabled = true;
+            }
+            else enabled = false;
         }
 
         private void LoadWordList()
@@ -53,7 +70,10 @@ namespace BeeGame.TypingGame
 
         public void StartMinigame()
         {
-            slider.value = 0;
+            slider.value = 0.5f; //0;
+            wordCountSlider.value = 0;
+            numWordsCompleted = 0;
+            currentWordIndex = 0;
             ShuffleWordList();
             PlayNextWord();
         }
@@ -86,8 +106,12 @@ namespace BeeGame.TypingGame
                 slider.value += 0.05f;
                 honeycomb.TypeLetterIndex(currentLetterIndex);
                 currentLetterIndex++;
+                //TODO have extra spectator bees show up to provide visual feedback that the player is doing well
+
                 if (currentLetterIndex == currentWord.Length)
                 {
+                    numWordsCompleted++;
+                    wordCountSlider.value = numWordsCompleted;
                     PlayNextWord();
                 }
             }
@@ -100,7 +124,21 @@ namespace BeeGame.TypingGame
             {
                 slider.value -= Time.deltaTime * 0.1f;
             }
+
+            if (slider.value <= 0 || numWordsCompleted >= MaxWords)
+            {
+                //minigame ends
+                //TODO output number of successful words to inform number of bees in next pollen hunt
+                if (GameController.Instance != null)
+                {
+                    GameController.Instance.NumFollowers = numWordsCompleted;
+                    GameController.Instance.SetGameMode(GameController.GameModes.Flying);
+                }
+            }
         }
+
+        
+
 
     }
 }
