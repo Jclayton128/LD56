@@ -116,8 +116,7 @@ namespace BeeGame.TypingGame
             if (slider.value <= 0)
             {
                 //minigame ends
-                //TODO output number of successful words to inform number of bees in next pollen hunt
-                GameController.Instance.SetGameMode(GameController.GameModes.Flying);
+                PollenRunController.Instance.PrepareNextPollenRun(currentWordIndex);
             }
         }
 
