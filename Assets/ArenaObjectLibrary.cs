@@ -12,6 +12,8 @@ public class ArenaObjectLibrary : MonoBehaviour
     [Tooltip("Hive 0 is starting player. Others are for enemy factions.")]
     [SerializeField] HiveHandler[] _hives = null;
 
+    [SerializeField] EnemyHandler[] _enemies = null;
+
     private void Awake()
     {
         Instance = this;
@@ -21,6 +23,14 @@ public class ArenaObjectLibrary : MonoBehaviour
     {
         int rand = UnityEngine.Random.Range(0, _flowers.Length);
         return _flowers[rand].gameObject;
+    }
+
+    public GameObject GetRandomEnemy()
+    {
+        int rand = UnityEngine.Random.Range(0, _enemies.Length);
+        
+         return _enemies[rand].gameObject;
+
     }
 
     public GameObject GetHive(int hiveType)

@@ -3,7 +3,10 @@ guid: bd0b32204f342674a903b0bca5630db1
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - _beeUIDriver: {instanceID: 0}
+  - pollenCollectClip: {fileID: 8300000, guid: eb316b123ebdbd64db79ad0a0c5abc0b, type: 3}
+  - _hiveHandler: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 
