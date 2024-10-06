@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace BeeGame
@@ -10,6 +11,8 @@ namespace BeeGame
 
         private const float SpawnDistance = 2;
 
+        private List<GameObject> instances = new List<GameObject>();
+
         private void Start()
         {
             if (GameController.Instance == null)
@@ -17,12 +20,20 @@ namespace BeeGame
                 Debug.LogError("No GameController. Not spawning followers.", this);
                 return;
             }
+            RespawnFollowers();
+        }
+
+        public void RespawnFollowers()
+        { 
+            instances.ForEach(instance => Destroy(instance));
+            instances.Clear();
             for (int i = 0; i < GameController.Instance.NumFollowers; i++)
             {
                 var offset = new Vector3(
                     Random.Range(-SpawnDistance, SpawnDistance), 
                     Random.Range(-SpawnDistance, SpawnDistance), 0);
-                Instantiate(followerBeePrefab, transform.position + offset, Quaternion.identity);
+                var instance = Instantiate(followerBeePrefab, transform.position + offset, Quaternion.identity);
+                instances.Add(instance.gameObject);
             }
         }
     }
