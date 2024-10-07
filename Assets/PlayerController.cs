@@ -12,7 +12,7 @@ public class PlayerController : MonoBehaviour
 
     //settings
     [SerializeField] GameObject _playerBeePrefab = null;
-
+	
 
     //state
     GameObject _player;
@@ -43,5 +43,6 @@ public class PlayerController : MonoBehaviour
 
         _player = Instantiate(_playerBeePrefab, Vector3.zero, Quaternion.identity);
         NewPlayerSpawned?.Invoke();
+		
     }
 }
