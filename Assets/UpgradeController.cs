@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class UpgradeController : MonoBehaviour
 {
@@ -20,6 +21,12 @@ public class UpgradeController : MonoBehaviour
     [SerializeField] List<Discussion> _nightDiscussions = new List<Discussion>();
     [SerializeField] List<Discussion> _deathDiscussions = new List<Discussion>();
 
+    [SerializeField] UpgradeOptionPanelDriver _investUp = null;
+    [SerializeField] UpgradeOptionPanelDriver _carryDown = null;
+    [SerializeField] UpgradeOptionPanelDriver _speedLeft = null;
+    [SerializeField] UpgradeOptionPanelDriver _recruitRight = null;
+
+    [SerializeField] TextMeshProUGUI _spaceToAdvance = null;
 
     //state
     Discussion _activeDiscussion;
@@ -130,7 +137,41 @@ public class UpgradeController : MonoBehaviour
     private void ChangePanelMode(PanelModes newPanelMode)
     {
         _panelMode = newPanelMode;
+        PushUpgradeOptionsToSubPanels();
         PanelModeChanged?.Invoke();
+    }
+
+    private void PushUpgradeOptionsToSubPanels()
+    {
+        bool invest;
+        if (_fullHexesToSpend >= 1) invest = true;
+        else invest = false;
+
+        bool capacity;
+        if (_fullHexesToSpend >= _upgradeCount_PollenCap + 1) capacity = true;
+        else capacity = false;
+
+        bool speed;
+        if (_fullHexesToSpend >= _upgradeCount_PlayerSpeed + 1) speed = true;
+        else speed = false;
+
+        bool recruit;
+        if (_fullHexesToSpend >= _upgradeCount_TypingUpgrade + 1) recruit = true;
+        else recruit = false;
+
+        _investUp.SetCost(1, invest);
+        _recruitRight.SetCost(_upgradeCount_TypingUpgrade+1, recruit);
+        _speedLeft.SetCost(_upgradeCount_PlayerSpeed+1, speed);
+        _carryDown.SetCost(_upgradeCount_PollenCap + 1, capacity);
+
+        if (_fullHexesToSpend == 0)
+        {
+            _spaceToAdvance.enabled = true;
+        }
+        else
+        {
+            _spaceToAdvance.enabled = false;
+        }
     }
 
     private void Update()
@@ -157,6 +198,7 @@ public class UpgradeController : MonoBehaviour
                     _fullHexesToSpend--;
                     PollenHexesToSpendChanged?.Invoke(_fullHexesToSpend);
                     StrategicLoopController.Instance.InvestHoney(1);
+                    PushUpgradeOptionsToSubPanels();
                 }
                 else
                 {
@@ -179,7 +221,7 @@ public class UpgradeController : MonoBehaviour
 
                     _pollenCap_Current += 1;
                     PollenCapacityChanged?.Invoke();
-
+                    PushUpgradeOptionsToSubPanels();
                     Debug.Log($"Spent {_upgradeCount_PollenCap + 1} to buy {_upgradeCount_PollenCap} level of increased pollen capacity");
                 }
                 else
@@ -198,7 +240,7 @@ public class UpgradeController : MonoBehaviour
 
                     _upgradeCount_PlayerSpeed++;
                     PlayerSpeedChanged?.Invoke();
-
+                    PushUpgradeOptionsToSubPanels();
                     Debug.Log($"Spent {_upgradeCount_PlayerSpeed + 1} to buy {_upgradeCount_PlayerSpeed} level of increased move speed");
                 }
                 else
@@ -218,7 +260,7 @@ public class UpgradeController : MonoBehaviour
 
                     _upgradeCount_TypingUpgrade++;
                     TypingBonusChanged?.Invoke();
-
+                    PushUpgradeOptionsToSubPanels();
                     Debug.Log($"Spent {_upgradeCount_TypingUpgrade + 1} to buy {_upgradeCount_TypingUpgrade} level of 3rd effect...");
                 }
                 else
