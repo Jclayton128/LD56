@@ -16,7 +16,7 @@ public class GameController : MonoBehaviour
     public Action<bool> PauseStateChanged_isPaused;
 
     //settings
-    [SerializeField] GameObject _optionMenuReminder = null;
+    //[SerializeField] GameObject _optionMenuReminder = null;
     [SerializeField] float _pollenGoal = 50f;
     public float PollenGoal => _pollenGoal;
 
@@ -66,14 +66,14 @@ public class GameController : MonoBehaviour
 
         GameModeChanged?.Invoke(_gameMode);
 
-        if (_gameMode != GameModes.Intro && _gameMode != GameModes.TitleMenu)
-        {
-            _optionMenuReminder.SetActive(true);
-        }
-        else
-        {
-            _optionMenuReminder.SetActive(false);
-        }
+        //if (_gameMode != GameModes.Intro && _gameMode != GameModes.TitleMenu)
+        //{
+        //    _optionMenuReminder.SetActive(true);
+        //}
+        //else
+        //{
+        //    _optionMenuReminder.SetActive(false);
+        //}
     }
 
 

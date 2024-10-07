@@ -19,6 +19,9 @@ public class MovementHandler : MonoBehaviour
 
     [Tooltip("Speed Multiplier for Bumble, relative to current move speed")]
     [SerializeField] float _bumbleMultiplier = 1f;
+	
+	[SerializeField] private AudioClip movementSoundClip;
+	
 
     //state
     [Header("State")]
@@ -29,12 +32,15 @@ public class MovementHandler : MonoBehaviour
     [SerializeField] Vector2 _bumbleVector = Vector2.zero;
     [SerializeField] Vector2 _desiredVector = Vector2.zero;
     [SerializeField] Vector2 _moveVector = Vector2.zero;
+	
+	
 
     private void Awake()
     {
         if (!_isPlayer)
         {
             _enemyHandler = GetComponent<EnemyHandler>();
+			
         }
         _moveSpeed_Current = _moveSpeed_Starting;
     }
@@ -46,7 +52,14 @@ public class MovementHandler : MonoBehaviour
         _bumbleVector = UnityEngine.Random.insideUnitCircle *
             _bumbleMultiplier;
         CommenceNewBumbling();
+		
+		if(!_isPlayer)
+		{
+			SoundFXManager.instance.PlaySoundFXClip(movementSoundClip, transform, 1f);
+		}
+		
     }
+	
 
     private void CommenceNewBumbling()
     {
@@ -70,7 +83,6 @@ public class MovementHandler : MonoBehaviour
             (_bumbleVector * _bumbleMultiplier * _moveSpeed_Current);
 
         UpdatePosition();
-
 
         //Debug.DrawLine(transform.position, transform.position + (Vector3)_bumbleVector,
         //    Color.blue);
