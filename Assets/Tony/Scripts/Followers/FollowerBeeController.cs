@@ -16,13 +16,13 @@ namespace BeeGame
 
         private Transform myTransform;
         private Transform playerTransform;
-        private Vector3 destination;
+        [SerializeField] private Vector3 destination;
         private bool isCatchingUpToPlayer;
 
         //clay's homing missile state data
         HealthHandler _healthHandler;
         Followers _followers;
-        private Transform _targetTransform;
+        [SerializeField] private Transform _targetTransform;
         private float _minDistanceToCountAsSuccessfulAttack = 0.1f;
         Vector3 _dirToTarget = Vector2.zero;
 
@@ -32,7 +32,8 @@ namespace BeeGame
             myTransform = transform;
             _healthHandler = GetComponentInChildren<HealthHandler>();
             _healthHandler.EntityDied += HandleDeath;
-            gameObject.layer = 0;
+
+            _healthHandler.gameObject.layer = 0;
         }
 
         public void ConnectBeeToHandler(Followers follower)
@@ -42,7 +43,8 @@ namespace BeeGame
 
         private void Start()
         {
-            var player = FindFirstObjectByType<MovementHandler>();
+            //var player = FindFirstObjectByType<MovementHandler>();
+            var player = PlayerController.Instance.Player.GetComponent<MovementHandler>();
             if (player == null)
             {
                 Debug.LogWarning("Follower bee can't find player. Deactivating.", this);
@@ -60,7 +62,7 @@ namespace BeeGame
             _targetTransform = target.transform;
             Vector2 _dirToTarget = Vector2.zero;
             target.EntityDied += ClearTarget;
-            gameObject.layer = 7;
+            _healthHandler.gameObject.layer = 7;
 
             Speed_Current = Speed_Starting * 2;
         }
@@ -68,7 +70,7 @@ namespace BeeGame
         public void ClearTarget()
         {
             _targetTransform = null;
-            gameObject.layer = 0;
+            _healthHandler.gameObject.layer = 0;
             Speed_Current = Speed_Starting;
             Invoke(nameof(Delay_ClearTarget), 0.01f);
         }
@@ -81,7 +83,8 @@ namespace BeeGame
 
         private void Update()
         {
-            if (_targetTransform)
+            if (!playerTransform) return;
+            if (_targetTransform != null)
             {
                 //ignore follow the player actions
                 //home in on targetTransform

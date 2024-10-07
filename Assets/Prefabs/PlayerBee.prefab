@@ -6092,6 +6092,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _enemies: []
+  _followers: {fileID: 7984171848638149039}
 --- !u!1 &6050235721571322631
 GameObject:
   m_ObjectHideFlags: 0
@@ -6565,6 +6566,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 509cae431ab660e4f8787a095d349b04, type: 3}
+--- !u!114 &7984171848638149039 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3065061262508842296, guid: 509cae431ab660e4f8787a095d349b04, type: 3}
+  m_PrefabInstance: {fileID: 4919110586671197335}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a6dbbccd2dbf8db4ab10143dc3867ea5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &9115054932261548194 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4195981763626490933, guid: 509cae431ab660e4f8787a095d349b04, type: 3}

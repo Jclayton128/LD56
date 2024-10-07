@@ -98,7 +98,7 @@ GameObject:
   - component: {fileID: -2452113042631622393}
   m_Layer: 6
   m_Name: Flower_Master
-  m_TagString: Untagged
+  m_TagString: Flower
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -197,8 +197,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _sr_Stem: {fileID: 3496437667019834855}
   _sr_Flower: {fileID: 2667818838564675179}
-  _pollenRegenRate: 0.02
-  _minPollenForHarvest: 0.4
+  _daysBetweenReloadingPollen: 4
   _maxPollenCapacity: 1
   _maxBumbleTime: 3
   _minBumbleTime: 1

@@ -62,6 +62,12 @@ public class ArenaController : MonoBehaviour
             GenerateRandomFlower();
         }
 
+        var flowers = GameObject.FindGameObjectsWithTag("Flower");
+        foreach (var flower in flowers)
+        {
+            _allFlowers.Add(flower.GetComponent<FlowerHandler>());
+        }
+
         GenerateHomeHive();
         GenerateEnemyHives();
         
@@ -70,8 +76,8 @@ public class ArenaController : MonoBehaviour
             GenerateRandomEnemy();
         }
 
-        DestroyFlowersTooCloseToHives();
-        DestroyEnemiesTooCloseToHives();
+        //DestroyFlowersTooCloseToHives();
+        //DestroyEnemiesTooCloseToHives();
         NewArenaGenerated?.Invoke();
     }
 

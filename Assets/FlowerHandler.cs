@@ -29,7 +29,7 @@ public class FlowerHandler : MonoBehaviour
 
 
     //state
-    int _daysSinceLastHarvest = 0;
+    int _daysSinceLastHarvest = 99;
     [SerializeField] FlowerTypes _flowerType;
     public FlowerTypes FlowerType => _flowerType;
 
@@ -102,6 +102,7 @@ public class FlowerHandler : MonoBehaviour
 
     public int HarvestPollen()
     {
+        _daysSinceLastHarvest = 0;
         int pollenLoad = _pollen;
         _pollen = 0;
         PollenAvailabilityChanged?.Invoke(this, false);
@@ -112,12 +113,12 @@ public class FlowerHandler : MonoBehaviour
 
     private void HandleDayPassed()
     {
-        _daysSinceLastHarvest++;
-        if (_daysSinceLastHarvest >= _daysBetweenReloadingPollen)
+        if (_daysSinceLastHarvest > _daysBetweenReloadingPollen)
         {
             _pollen = _maxPollenCapacity;
             FadeFlowerIn();
         }
+        _daysSinceLastHarvest++;
     }
 
     private void Update()

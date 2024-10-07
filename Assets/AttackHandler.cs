@@ -30,18 +30,19 @@ public class AttackHandler : MonoBehaviour
     private void Update()
     {
         if (GameController.Instance.GameMode != GameController.GameModes.Flying) return;
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Space) && _followers.NumberOfUsableFollowers > 0)
         {
-            if (_followers.NumberOfUsableFollowers > 0)
-            {
-                _followers.LaunchUnusedFollowerAtTarget(_detector.GetRandomEnemy());
+            _followers.LaunchUnusedFollowerAtTarget(_detector.GetRandomEnemy());
+            //if (_followers.NumberOfUsableFollowers > 0)
+            //{
+            //    _followers.LaunchUnusedFollowerAtTarget(_detector.GetRandomEnemy());
 
-            }
-            else
-            {
-                //TODO click sound of empty chamber... no more bees left to fire
-                Debug.Log("No bees left in the chamber!");
-            }
+            //}
+            //else
+            //{
+            //    //TODO click sound of empty chamber... no more bees left to fire
+            //    Debug.Log("No bees left in the chamber!");
+            //}
 
 
         }

@@ -1,12 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using BeeGame;
 public class EnemyDetector : MonoBehaviour
 {
     [SerializeField] List<AllegianceHandler> _enemies = new List<AllegianceHandler>();
 
     ContextHandler _beeContext;
+    [SerializeField] Followers _followers = null;
 
     private void Start()
     {
@@ -22,8 +23,13 @@ public class EnemyDetector : MonoBehaviour
         {
             if (ah.Allegiance != AllegianceHandler.Allegiances.BeePlayer)
             {
-                _enemies.Add(ah);
-                _beeContext.AddAvailableContext(ContextHandler.BeeContexts.Attack);
+
+                if (_followers.NumberOfUsableFollowers > 0)
+                {
+                    _enemies.Add(ah);
+                    _beeContext.AddAvailableContext(ContextHandler.BeeContexts.Attack);
+                }
+
             }
         }
     }
