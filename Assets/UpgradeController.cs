@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class UpgradeController : MonoBehaviour
 {
+    public enum ReasonsForEnteringMode { NormalDeposit, PlayerDeath, NightTime}
     public static UpgradeController Instance { get; private set; }
     public Action PollenCapacityChanged; //STR
     public Action PlayerSpeedChanged; //DEX
@@ -12,6 +13,8 @@ public class UpgradeController : MonoBehaviour
     public Action<int> PollenHexesToSpendChanged;
 
     //state
+    public ReasonsForEnteringMode ReasonToEnteringMode = 
+            ReasonsForEnteringMode.NormalDeposit;
     [SerializeField] int _maxUpgradeLevel = 4;
     [SerializeField] int _pollenCap_Starting = 2;
 

@@ -4,12 +4,13 @@ using UnityEngine;
 using DG.Tweening;
 using System;
 using TMPro;
+using UnityEngine.UI;
 
 public class UIController : MonoBehaviour
 {
     public static UIController Instance { get; private set; }
     public Action AllActiveTweensCompleted;
-    
+    public Action FadeToBlackCompleted;
 
     [SerializeField] PanelDriver[] _introPanel = null;
     [SerializeField] PanelDriver[] _titlePanel = null;
@@ -19,6 +20,7 @@ public class UIController : MonoBehaviour
     [SerializeField] PanelDriver[] _gameOverPanel = null;
     [SerializeField] PanelDriver[] _creditsPanel = null;
     [SerializeField] PanelDriver[] _optionsPanel = null;
+    [SerializeField] Image _blackoutImage = null;
     //
 
     /// <summary>
@@ -29,6 +31,8 @@ public class UIController : MonoBehaviour
     public bool IsUIActivelyTweening  = false;
     [SerializeField] private float _timeThatTweensWillBeComplete = 0;
 
+    [SerializeField] float _timeToBlackout = 2f;
+    Tween _blackoutTween;
     private void Awake()
     {
         Instance = this;
@@ -181,6 +185,23 @@ public class UIController : MonoBehaviour
         }       
     }
 
+    public void FadeToBlack()
+    {
+        _blackoutTween.Kill();
+        _blackoutTween = _blackoutImage.DOFade(1, _timeToBlackout).SetUpdate(true).OnComplete(HandleFadeToBlackCompleted);
+    }
+
+    private void HandleFadeToBlackCompleted()
+    {
+        FadeToBlackCompleted?.Invoke();
+    }
+    public void FadeOutFromBlack()
+    {
+        _blackoutImage.DOFade(1, .001f);
+        _blackoutTween.Kill();        
+        _blackoutTween = _blackoutImage.DOFade(0, _timeToBlackout*3).SetUpdate(true).
+            SetEase(Ease.InQuint);
+    } 
 
 
 }

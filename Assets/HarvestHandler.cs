@@ -191,9 +191,14 @@ public class HarvestHandler : MonoBehaviour
         _ps.Stop();
         _contextHandler.RemoveAvailableContext(ContextHandler.BeeContexts.DepositPollenAtHive);
         _totalQuarters = 0;
+        UpgradeController.Instance.ReasonToEnteringMode = UpgradeController.ReasonsForEnteringMode.NormalDeposit;
         GameController.Instance.SetGameMode(GameController.GameModes.Upgrading);
     }
     
+    public void DumpAllPollen()
+    {
+        _totalQuarters = 0;
+    }
 
     private void OnDestroy()
     {
