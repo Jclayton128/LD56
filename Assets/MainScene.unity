@@ -329,7 +329,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: c07a7d95e27caf3489d93c3cc065e360, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -979,7 +979,7 @@ Transform:
   m_GameObject: {fileID: 156572889}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 14908882, y: 14844426, z: -9333021}
+  m_LocalPosition: {x: 14972562, y: 14907708, z: -9372821}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1635,6 +1635,51 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 355162672}
   m_CullTransparentMesh: 1
+--- !u!1 &455375089
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 455375091}
+  - component: {fileID: 455375090}
+  m_Layer: 0
+  m_Name: FlyingMinigame
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &455375090
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 455375089}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8f945f4d276cf60449b76fd4577b199b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _dayManager: {fileID: 352985612}
+--- !u!4 &455375091
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 455375089}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &462843082
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1892,6 +1937,54 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 477864674}
   m_CullTransparentMesh: 1
+--- !u!1 &529842486
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 529842488}
+  - component: {fileID: 529842487}
+  m_Layer: 0
+  m_Name: UpgradingMinigame
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &529842487
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 529842486}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 38047be8f876da342a879ea64adb0230, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _maxUpgradeLevel: 4
+  _pollenCap_Starting: 2
+  _speedBonusPerUpgrade: 1.5
+  _typingIncrement_PerUpgrade: 0.09
+--- !u!4 &529842488
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 529842486}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &532579724
 GameObject:
   m_ObjectHideFlags: 0
@@ -5121,8 +5214,6 @@ GameObject:
   - component: {fileID: 1388348126}
   - component: {fileID: 1388348127}
   - component: {fileID: 1388348128}
-  - component: {fileID: 1388348129}
-  - component: {fileID: 1388348130}
   - component: {fileID: 1388348131}
   m_Layer: 0
   m_Name: Controllers
@@ -5242,34 +5333,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _playerBeePrefab: {fileID: 4990873064931489156, guid: bf6db31461a9859498e5da53457111d4, type: 3}
---- !u!114 &1388348129
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1388348122}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 38047be8f876da342a879ea64adb0230, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _maxUpgradeLevel: 4
-  _pollenCap_Starting: 2
-  _speedBonusPerUpgrade: 1.5
---- !u!114 &1388348130
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1388348122}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8f945f4d276cf60449b76fd4577b199b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _dayManager: {fileID: 352985612}
 --- !u!114 &1388348131
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8313,6 +8376,8 @@ SceneRoots:
   - {fileID: 156572892}
   - {fileID: 579088355}
   - {fileID: 1388348124}
+  - {fileID: 455375091}
+  - {fileID: 529842488}
   - {fileID: 1089886822}
   - {fileID: 2024989651}
   - {fileID: 532579727}
