@@ -10,10 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ccf97c32b92597c469cc9d07e9a281b9, type: 3}
-  m_Name: Night_0
+  m_Name: Night_1
   m_EditorClassIdentifier: 
-  _0queenGreeting: It was so dark when you returned...you lost your pollen
-  _1playerResponse: I... I must have dropped in the night
-  _2queenResponse: Next time, return before the sun sets
-  _3playerStinger: 
+  _0queenGreeting: It was the third watch last night when you finally made it home
+  _1playerResponse: '*Nods head wearily*'
+  _2queenResponse: Don't fly so far next time so you can actually bring home some
+    pollenlen.
+  _3playerStinger: I had some, but... I don't know what happened to it
   step: 4

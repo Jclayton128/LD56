@@ -22,11 +22,13 @@ public class UpgradeOptionPanelDriver : MonoBehaviour
         
         if (canAfford)
         {
-            _backgroundImage.sprite = _affordableBGSprite;
+            gameObject.SetActive(true);
+            //_backgroundImage.sprite = _affordableBGSprite;
         }
         else
         {
-            _backgroundImage.sprite = _tooMuchCostBGSprite;
+            gameObject.SetActive(false);
+            //_backgroundImage.sprite = _tooMuchCostBGSprite;
         }
     }
 }

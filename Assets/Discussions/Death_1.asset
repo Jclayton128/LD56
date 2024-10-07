@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ccf97c32b92597c469cc9d07e9a281b9, type: 3}
-  m_Name: Night_0
+  m_Name: Death_1
   m_EditorClassIdentifier: 
-  _0queenGreeting: It was so dark when you returned...you lost your pollen
-  _1playerResponse: I... I must have dropped in the night
-  _2queenResponse: Next time, return before the sun sets
+  _0queenGreeting: No pollen yesterday, but at least we didn't lose you.
+  _1playerResponse: It was a close one, my Queen.
+  _2queenResponse: Remember to bring some more recruits with you, for safety.
   _3playerStinger: 
   step: 4

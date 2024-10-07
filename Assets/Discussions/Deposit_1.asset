@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ccf97c32b92597c469cc9d07e9a281b9, type: 3}
   m_Name: Deposit_1
   m_EditorClassIdentifier: 
-  _0queenGreeting: deposit 2
-  _1playerResponse: here i am
-  _2queenResponse: 
-  _3playerStinger: 
-  step: 0
+  _0queenGreeting: Another bountiful harvest. We may survive yet.
+  _1playerResponse: The flowers grant so much pollen.
+  _2queenResponse: Yes, but the flowers do not always yield enough.
+  _3playerStinger: I'll fly further to find fresh fields.
+  step: 2

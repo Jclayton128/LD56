@@ -10,10 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ccf97c32b92597c469cc9d07e9a281b9, type: 3}
-  m_Name: Night_0
+  m_Name: Deposit_5
   m_EditorClassIdentifier: 
-  _0queenGreeting: It was so dark when you returned...you lost your pollen
-  _1playerResponse: I... I must have dropped in the night
-  _2queenResponse: Next time, return before the sun sets
-  _3playerStinger: 
-  step: 4
+  _0queenGreeting: Knight...You have a speck of pollen on your cheek
+  _1playerResponse: '*Wipes cheek*'
+  _2queenResponse: Better. Don't forget to bring food for those of use who cannot
+    leave.
+  _3playerStinger: Of course, my Queen.
+  step: 2

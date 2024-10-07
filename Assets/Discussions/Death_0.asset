@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ccf97c32b92597c469cc9d07e9a281b9, type: 3}
   m_Name: Death_0
   m_EditorClassIdentifier: 
-  _0queenGreeting: You look in pretty bad shape.
-  _1playerResponse: I was attacked!
-  _2queenResponse: 'Duck dodge dive '
-  _3playerStinger: '*shakes head*'
-  step: 0
+  _0queenGreeting: You were nearly lifeless when the guards found you!
+  _1playerResponse: I... don't quite know what happened.
+  _2queenResponse: Judging by your shape, you ran into some trouble
+  _3playerStinger: '*Nods wearily*'
+  step: 4

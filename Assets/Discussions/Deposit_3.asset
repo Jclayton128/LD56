@@ -10,10 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ccf97c32b92597c469cc9d07e9a281b9, type: 3}
-  m_Name: Night_0
+  m_Name: Deposit_3
   m_EditorClassIdentifier: 
-  _0queenGreeting: It was so dark when you returned...you lost your pollen
-  _1playerResponse: I... I must have dropped in the night
-  _2queenResponse: Next time, return before the sun sets
-  _3playerStinger: 
-  step: 4
+  _0queenGreeting: My brave and bumbling knight!
+  _1playerResponse: I have returned with pollen for the Bee Hold, your majesty.
+  _2queenResponse: "Greatness be! I have faith the Hold will elude winter\u2019s
+    cruel grasp."
+  _3playerStinger: Your will be done, my Queen!
+  step: 2

@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ccf97c32b92597c469cc9d07e9a281b9, type: 3}
   m_Name: Deposit_0
   m_EditorClassIdentifier: 
-  _0queenGreeting: You made it back? With pollen too!
+  _0queenGreeting: You made it back!? And with pollen!
   _1playerResponse: Of course, my queen.
-  _2queenResponse: Well, I am pleased.
-  _3playerStinger: '*bows gracefully*'
-  step: 0
+  _2queenResponse: I did not know if you were ready for the hunt yet.
+  _3playerStinger: My sisters have trained me well, my queen.
+  step: 4

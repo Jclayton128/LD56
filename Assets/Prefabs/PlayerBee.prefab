@@ -5713,11 +5713,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8181c5e4f7c360d4fb134a1f691624c2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _moveSpeed_Starting: 7
+  _moveSpeed_Starting: 3
   _isPlayer: 1
   _maxBumbleTime: 3
   _minBumbleTime: 1
-  _bumbleMultiplier: 0
+  _bumbleMultiplier: 0.5
   _moveSpeed_Current: 0
   _bumbleVector: {x: 0, y: 0}
   _desiredVector: {x: 0, y: 0}

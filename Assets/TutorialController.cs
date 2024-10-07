@@ -27,8 +27,8 @@ public class TutorialController : MonoBehaviour
     List<List<string>> _lore = new List<List<string>>();
     [SerializeField] List<string> _activeDay;
     Tween _tween;
-    [SerializeField] int _count;
-    [SerializeField] int _day;
+    int _count;
+    int _day = -1;
 
     private void Awake()
     {
@@ -46,13 +46,24 @@ public class TutorialController : MonoBehaviour
 
     private void Start()
     {
+        GameController.Instance.GameModeChanged += HandleGameModeChanged;
         PollenRunController.Instance.NewPollenRunStarted += HandleNewPollenRun;
         _TMP.DOFade(0, 0.01f);
     }
 
+    private void HandleGameModeChanged(GameController.GameModes obj)
+    {
+        if (obj != GameController.GameModes.Flying)
+        {
+            _tween.Kill();
+            _activeDay = null;
+        }
+    }
+
     private void HandleNewPollenRun()
     {
-        _day = 0;
+        _day++;
+        _count = 0;
         _activeDay = _lore[_day];
         PushNextText(_activeDay[_count]);
         //_day++;
