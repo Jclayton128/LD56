@@ -48,6 +48,7 @@ public class ArenaController : MonoBehaviour
     private void Start()
     {
         GameController.Instance.NewGameStarted += HandleNewGameStarted;
+        PollenRunController.Instance.NewPollenRunStarted += DestroyEnemiesTooCloseToHives;
     }
 
     private void HandleNewGameStarted()
@@ -77,7 +78,7 @@ public class ArenaController : MonoBehaviour
         }
 
         //DestroyFlowersTooCloseToHives();
-        //DestroyEnemiesTooCloseToHives();
+
         NewArenaGenerated?.Invoke();
     }
 
@@ -177,21 +178,39 @@ public class ArenaController : MonoBehaviour
 
     private void DestroyEnemiesTooCloseToHives()
     {
-        foreach (var hive in _allHivesPoints)
-        {
-            var hits = Physics2D.OverlapCircleAll(hive, _minDistanceFromHiveToObject);
-            for (int i = hits.Length - 1; i >= 0; i--)
-            {
-                EnemyHandler fh;
-                if (hits[i].TryGetComponent<EnemyHandler>(out fh))
-                {
-                    _allEnemies.Remove(fh);
-                    _allEnemiesPoints.Remove(fh.transform.position);
-                    Destroy(hits[i].gameObject);
-                }
+        var enemies = GameObject.FindGameObjectsWithTag("Enemy");
+        List<GameObject> enemiesToKill = new List<GameObject>();
 
+        foreach (var enemy in enemies)
+        {
+            if (enemy.transform.position.magnitude < _minDistanceFromHiveToObject)
+            {
+                enemiesToKill.Add(enemy);
             }
+
         }
+
+        for (int i = enemiesToKill.Count - 1; i >= 0; i--)
+        {
+            Destroy(enemiesToKill[i].gameObject);
+
+        }
+
+
+        //int layerMask = 1 << 7;
+        //var hits = Physics2D.OverlapCircleAll(Vector2.zero, _minDistanceFromHiveToObject, layerMask);
+        //for (int i = hits.Length - 1; i >= 0; i--)
+        //{
+        //    EnemyHandler fh;
+        //    if (hits[i].TryGetComponent<EnemyHandler>(out fh))
+        //    {
+        //        Debug.Log($"Found {hits.Length} enemies too close to hive");
+        //        _allEnemies.Remove(fh);
+        //        _allEnemiesPoints.Remove(fh.transform.position);
+        //        Destroy(fh.gameObject);
+        //    }
+
+        //}
     }
 
     public void FreezeAllEnemies()
