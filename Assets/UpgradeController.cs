@@ -6,15 +6,30 @@ using UnityEngine;
 public class UpgradeController : MonoBehaviour
 {
     public enum ReasonsForEnteringMode { NormalDeposit, PlayerDeath, NightTime}
+    public enum PanelModes { QueenSpeak, PlayerSpeak, Upgrade}
+
+    public Action PanelModeChanged;
+
     public static UpgradeController Instance { get; private set; }
     public Action PollenCapacityChanged; //STR
     public Action PlayerSpeedChanged; //DEX
     public Action TypingBonusChanged; //CHA or INT
     public Action<int> PollenHexesToSpendChanged;
 
+    [SerializeField] List<Discussion> _depositDiscussions = new List<Discussion>();
+    [SerializeField] List<Discussion> _nightDiscussions = new List<Discussion>();
+    [SerializeField] List<Discussion> _deathDiscussions = new List<Discussion>();
+
+
     //state
+    Discussion _activeDiscussion;
+    public string ActivePanelText{ get; private set; }
     public ReasonsForEnteringMode ReasonToEnteringMode = 
             ReasonsForEnteringMode.NormalDeposit;
+
+    [SerializeField] PanelModes _panelMode = PanelModes.QueenSpeak;
+    public PanelModes PanelMode => _panelMode;
+
     [SerializeField] int _maxUpgradeLevel = 4;
     [SerializeField] int _pollenCap_Starting = 2;
 
@@ -51,105 +66,181 @@ public class UpgradeController : MonoBehaviour
         if (newGameMode == GameController.GameModes.Upgrading)
         {
             enabled = true;
+
+            EnterDiscussion();
         }
         else enabled = false;
     }
 
-    private void Update()
+    private void EnterDiscussion()
     {
-        //Should check for remaining pollen. Do not allow to leave scene until all pollen is spent.
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            if (_fullHexesToSpend == 0)
-            {
-                GameController.Instance.SetGameMode(GameController.GameModes.Recruiting);
-            }
-            else
-            {
-                Debug.LogWarning("Don't allow player to leave until all pollen is spent", this);
-            }
 
-        }
+        int rand;
 
-        if (Input.GetKeyDown(KeyCode.UpArrow))
+        switch (ReasonToEnteringMode)
         {
-            if (_fullHexesToSpend > 0)
-            {
-                _fullHexesToSpend--;
-                PollenHexesToSpendChanged?.Invoke(_fullHexesToSpend);
-                StrategicLoopController.Instance.InvestHoney(1);                
-            }
-            else
-            {
-                //TODO Play "not enough cash" sound.
-            }
+            case ReasonsForEnteringMode.NormalDeposit:
+                rand = UnityEngine.Random.Range(0, _depositDiscussions.Count);
+                _activeDiscussion = _depositDiscussions[rand];
+                break;
+
+            case ReasonsForEnteringMode.PlayerDeath:
+                rand = UnityEngine.Random.Range(0, _deathDiscussions.Count);
+                _activeDiscussion = _deathDiscussions[rand];
+                break;
+
+            case ReasonsForEnteringMode.NightTime:
+                rand = UnityEngine.Random.Range(0, _nightDiscussions.Count);
+                _activeDiscussion = _nightDiscussions[rand];
+                break;
 
 
         }
 
-        if (Input.GetKeyDown(KeyCode.DownArrow) &&
-            _upgradeCount_PollenCap < _maxUpgradeLevel)
-        {
-            //increase pollen capacity by 1
-            if (_fullHexesToSpend >= _upgradeCount_PollenCap + 1)
-            {
-                _fullHexesToSpend -= _upgradeCount_PollenCap + 1;
-                PollenHexesToSpendChanged?.Invoke(_fullHexesToSpend);
-
-                _upgradeCount_PollenCap++;
-
-                _pollenCap_Current += 1;
-                PollenCapacityChanged?.Invoke();
-
-                Debug.Log($"Spent {_upgradeCount_PollenCap + 1} to buy {_upgradeCount_PollenCap} level of increased pollen capacity");
-            }
-            else
-            {
-                //TODO Play "not enough cash" sound.
-            }
-        }
-        if (Input.GetKeyDown(KeyCode.LeftArrow) &&
-            _upgradeCount_PlayerSpeed < _maxUpgradeLevel)
-        {
-            //Increase move speed
-            if (_fullHexesToSpend >= _upgradeCount_PlayerSpeed + 1)
-            {
-                _fullHexesToSpend -= _upgradeCount_PlayerSpeed + 1;
-                PollenHexesToSpendChanged?.Invoke(_fullHexesToSpend);
-
-                _upgradeCount_PlayerSpeed++;
-                PlayerSpeedChanged?.Invoke();
-
-                Debug.Log($"Spent {_upgradeCount_PlayerSpeed + 1} to buy {_upgradeCount_PlayerSpeed} level of increased move speed");
-            }
-            else
-            {
-                //TODO Play "not enough cash" sound.
-            }
-        }
-
-        if (Input.GetKeyDown(KeyCode.RightArrow) &&
-            _upgradeCount_TypingUpgrade < _maxUpgradeLevel)
-        {
-            //Fighting? Minigame time help?
-            if (_fullHexesToSpend >= _upgradeCount_TypingUpgrade + 1)
-            {
-                _fullHexesToSpend -= _upgradeCount_TypingUpgrade + 1;
-                PollenHexesToSpendChanged?.Invoke(_fullHexesToSpend);
-
-                _upgradeCount_TypingUpgrade++;
-                TypingBonusChanged?.Invoke();
-
-                Debug.Log($"Spent {_upgradeCount_TypingUpgrade + 1} to buy {_upgradeCount_TypingUpgrade} level of 3rd effect...");
-            }
-            else
-            {
-                //TODO Play "not enough cash" sound.
-            }
-        }
-
+        _activeDiscussion.step = 0;
+        ActivePanelText = _activeDiscussion.QueenSpeech0;
+        ChangePanelMode(PanelModes.QueenSpeak);
 
     }
+
+    private void AdvanceDiscussion()
+    {
+        _activeDiscussion.step++;
+        if (_activeDiscussion.step == 1)
+        {
+            ActivePanelText = _activeDiscussion.PlayerResponse1;
+            ChangePanelMode(PanelModes.PlayerSpeak);
+        }
+        if (_activeDiscussion.step == 2)
+        {
+            ActivePanelText = _activeDiscussion.QueenResponse2;
+            ChangePanelMode(PanelModes.QueenSpeak);
+        }
+        if (_activeDiscussion.step == 3)
+        {
+            ActivePanelText = _activeDiscussion.PlayerStinger3;
+            ChangePanelMode(PanelModes.PlayerSpeak);
+        }
+        if (_activeDiscussion.step == 4 || ActivePanelText.Length == 0)
+        {
+            ChangePanelMode(PanelModes.Upgrade);
+        }
+    }
+
+    private void ChangePanelMode(PanelModes newPanelMode)
+    {
+        _panelMode = newPanelMode;
+        PanelModeChanged?.Invoke();
+    }
+
+    private void Update()
+    {
+        if (PanelMode == PanelModes.Upgrade)
+        {
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                if (_fullHexesToSpend == 0)
+                {
+                    GameController.Instance.SetGameMode(GameController.GameModes.Recruiting);
+                }
+                else
+                {
+                    Debug.LogWarning("Don't allow player to leave until all pollen is spent", this);
+                }
+
+            }
+
+            if (Input.GetKeyDown(KeyCode.UpArrow))
+            {
+                if (_fullHexesToSpend > 0)
+                {
+                    _fullHexesToSpend--;
+                    PollenHexesToSpendChanged?.Invoke(_fullHexesToSpend);
+                    StrategicLoopController.Instance.InvestHoney(1);
+                }
+                else
+                {
+                    //TODO Play "not enough cash" sound.
+                }
+
+
+            }
+
+            if (Input.GetKeyDown(KeyCode.DownArrow) &&
+                _upgradeCount_PollenCap < _maxUpgradeLevel)
+            {
+                //increase pollen capacity by 1
+                if (_fullHexesToSpend >= _upgradeCount_PollenCap + 1)
+                {
+                    _fullHexesToSpend -= _upgradeCount_PollenCap + 1;
+                    PollenHexesToSpendChanged?.Invoke(_fullHexesToSpend);
+
+                    _upgradeCount_PollenCap++;
+
+                    _pollenCap_Current += 1;
+                    PollenCapacityChanged?.Invoke();
+
+                    Debug.Log($"Spent {_upgradeCount_PollenCap + 1} to buy {_upgradeCount_PollenCap} level of increased pollen capacity");
+                }
+                else
+                {
+                    //TODO Play "not enough cash" sound.
+                }
+            }
+            if (Input.GetKeyDown(KeyCode.LeftArrow) &&
+                _upgradeCount_PlayerSpeed < _maxUpgradeLevel)
+            {
+                //Increase move speed
+                if (_fullHexesToSpend >= _upgradeCount_PlayerSpeed + 1)
+                {
+                    _fullHexesToSpend -= _upgradeCount_PlayerSpeed + 1;
+                    PollenHexesToSpendChanged?.Invoke(_fullHexesToSpend);
+
+                    _upgradeCount_PlayerSpeed++;
+                    PlayerSpeedChanged?.Invoke();
+
+                    Debug.Log($"Spent {_upgradeCount_PlayerSpeed + 1} to buy {_upgradeCount_PlayerSpeed} level of increased move speed");
+                }
+                else
+                {
+                    //TODO Play "not enough cash" sound.
+                }
+            }
+
+            if (Input.GetKeyDown(KeyCode.RightArrow) &&
+                _upgradeCount_TypingUpgrade < _maxUpgradeLevel)
+            {
+                //Fighting? Minigame time help?
+                if (_fullHexesToSpend >= _upgradeCount_TypingUpgrade + 1)
+                {
+                    _fullHexesToSpend -= _upgradeCount_TypingUpgrade + 1;
+                    PollenHexesToSpendChanged?.Invoke(_fullHexesToSpend);
+
+                    _upgradeCount_TypingUpgrade++;
+                    TypingBonusChanged?.Invoke();
+
+                    Debug.Log($"Spent {_upgradeCount_TypingUpgrade + 1} to buy {_upgradeCount_TypingUpgrade} level of 3rd effect...");
+                }
+                else
+                {
+                    //TODO Play "not enough cash" sound.
+                }
+            }
+
+        }
+        if (PanelMode == PanelModes.QueenSpeak ||
+            PanelMode == PanelModes.PlayerSpeak)
+        {
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                AdvanceDiscussion();
+            }
+
+        }
+
+    }
+
+ 
 
     public void BankPollenHexesToSpend(int amountToBank)
     {

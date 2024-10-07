@@ -31,6 +31,10 @@ namespace BeeGame
             hourLengthInSeconds = dayLengthInSeconds / 24;
         }
 
+        private void Start()
+        {
+            UIController.Instance.FadeToBlackCompleted += HandleBlackoutCompleted;
+        }
         public void StartDay()
         {
             StartMorning();
@@ -85,6 +89,11 @@ namespace BeeGame
                     // off except the final night image and invoke event.
                     StartNight();
                     BecameNight?.Invoke();
+                    UpgradeController.Instance.ReasonToEnteringMode = UpgradeController.ReasonsForEnteringMode.NightTime;
+                    PlayerController.Instance.Player.GetComponentInChildren<HarvestHandler>().DumpAllPollen();
+                    PlayerController.Instance.Player.transform.position = new Vector2(0.5f, 0.5f);
+                    UIController.Instance.FadeToBlack();
+                    
                 }
             }
             if (sunriseHour <= currentHour && currentHour < (sunriseHour + morningImages.Count))
@@ -97,6 +106,12 @@ namespace BeeGame
                 var alpha = currentTime - Mathf.Floor(currentTime);
                 eveningImages[currentHour - sunsetHour].alpha = currentTime - currentHour;
             }
+        }
+
+        private void HandleBlackoutCompleted()
+        {
+            GameController.Instance.SetGameMode(GameController.GameModes.Upgrading);
+            UIController.Instance.FadeOutFromBlack();
         }
     }
 }

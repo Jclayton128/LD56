@@ -15,12 +15,21 @@ public class UpgradingContextPanelDriver : MonoBehaviour
 
     [SerializeField] TextMeshProUGUI _pollenHexesToSpendTMP = null;
 
+    [SerializeField] GameObject _upgradingPanel = null;
+    [SerializeField] GameObject _queenSpeakPanel = null;
+    [SerializeField] GameObject _playerSpeakPanel = null;
+    [SerializeField] TextMeshProUGUI[] _dialogTMPs = null;
 
     private void Start()
     {
         StrategicLoopController.Instance.HoneyFactorChanged += HandleHoneyFactorChanged;
         UpgradeController.Instance.PollenHexesToSpendChanged += HandleHexesToSpendChanged;
         HandleHexesToSpendChanged(0);
+
+        _playerSpeakPanel.SetActive(false);
+        _queenSpeakPanel.SetActive(false);
+        _upgradingPanel.SetActive(false);
+        UpgradeController.Instance.PanelModeChanged += HandlePanelModeChanged;
     }
 
     private void HandleHexesToSpendChanged(int obj)
@@ -52,6 +61,35 @@ public class UpgradingContextPanelDriver : MonoBehaviour
                 break;
             }
             _storedHoneyImages[i].sprite = _fullHoneySprite;
+        }
+    }
+
+    private void HandlePanelModeChanged()
+    {
+        switch (UpgradeController.Instance.PanelMode)
+        {
+            case UpgradeController.PanelModes.PlayerSpeak:
+                _playerSpeakPanel.SetActive(true);
+                _queenSpeakPanel.SetActive(false);
+                _upgradingPanel.SetActive(false);
+                break;
+
+            case UpgradeController.PanelModes.QueenSpeak:
+                _playerSpeakPanel.SetActive(false);
+                _queenSpeakPanel.SetActive(true);
+                _upgradingPanel.SetActive(false);
+                break;
+
+            case UpgradeController.PanelModes.Upgrade:
+                _playerSpeakPanel.SetActive(false);
+                _queenSpeakPanel.SetActive(false);
+                _upgradingPanel.SetActive(true);
+                break;
+        }
+
+        foreach (var tmp in _dialogTMPs)
+        {
+            tmp.text = UpgradeController.Instance.ActivePanelText;
         }
     }
 
