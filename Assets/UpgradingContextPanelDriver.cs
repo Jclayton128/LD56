@@ -3,26 +3,56 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class UpgradingContextPanelDriver : MonoBehaviour
 {
-    [SerializeField] Slider _pollenSlider;
 
+
+    [SerializeField] Image[] _storedHoneyImages = null;
+    [SerializeField] Sprite _emptyHoneySprite = null;
+    [SerializeField] Sprite _fullHoneySprite = null;
+
+    [SerializeField] TextMeshProUGUI _pollenHexesToSpendTMP = null;
 
 
     private void Start()
     {
-        ArenaController.Instance.NewArenaGenerated += HandleNewArenaGenerated;
-        _pollenSlider.maxValue = GameController.Instance.PollenGoal;
+        StrategicLoopController.Instance.HoneyFactorChanged += HandleHoneyFactorChanged;
+        UpgradeController.Instance.PollenHexesToSpendChanged += HandleHexesToSpendChanged;
+        HandleHexesToSpendChanged(0);
     }
 
-    private void HandleNewArenaGenerated()
+    private void HandleHexesToSpendChanged(int obj)
     {
-        ArenaController.Instance.PlayerHive.PollenCountChanged += HandlePollenCountChanged;
+        _pollenHexesToSpendTMP.text = obj.ToString();
     }
 
-    private void HandlePollenCountChanged(float currentPollenInHive)
+    private void HandleHoneyFactorChanged(int currentHoney, int goalHoney)
     {
-        _pollenSlider.value = currentPollenInHive;
+        foreach (var honeyImage in _storedHoneyImages)
+        {
+            honeyImage.sprite = _emptyHoneySprite;
+            honeyImage.enabled = false;
+        }
+        for (int i = 0; i < goalHoney; i++)
+        {
+            if (i >= _storedHoneyImages.Length)
+            {
+                Debug.LogWarning("Goal honey amount exceeds UI images to display with.", this);
+                break;
+            }
+            _storedHoneyImages[i].enabled = true;
+        }
+        for (int i = 0; i < currentHoney; i++)
+        {
+            if (i >= _storedHoneyImages.Length)
+            {
+                Debug.LogWarning("Honey invested exceeds UI images to display with.", this);
+                break;
+            }
+            _storedHoneyImages[i].sprite = _fullHoneySprite;
+        }
     }
+
 }

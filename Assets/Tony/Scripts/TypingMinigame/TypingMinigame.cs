@@ -14,6 +14,12 @@ namespace BeeGame.TypingGame
         [SerializeField] private Slider wordCountSlider;
         [SerializeField] private TextAsset wordListAsset;
 
+        [SerializeField] float _startingSliderValue = 1f;
+        [SerializeField] float _bonusUponCorrectKey = 0.05f;
+        [SerializeField] float _malusUponWrongKey = 0.05f;
+        [SerializeField] float _timeMultiplier = 0.6f;
+
+
         private const int MaxWords = 10;
 
         private List<string> wordList;
@@ -76,7 +82,7 @@ namespace BeeGame.TypingGame
 
         public void StartMinigame()
         {
-            slider.value = 0.5f; //0;
+            slider.value = _startingSliderValue; //0;
             wordCountSlider.value = 0;
             numWordsCompleted = 0;
             currentWordIndex = 0;
@@ -109,7 +115,7 @@ namespace BeeGame.TypingGame
             var requiredKeyCode = KeyCode.A + requiredCharacter - 'A';
             if (Input.GetKeyDown(requiredKeyCode))
             {
-                slider.value += 0.05f;
+                slider.value += _bonusUponCorrectKey;
                 honeycomb.TypeLetterIndex(currentLetterIndex);
                 currentLetterIndex++;
                 //TODO have extra spectator bees show up to provide visual feedback that the player is doing well
@@ -124,11 +130,12 @@ namespace BeeGame.TypingGame
             else if (Input.anyKeyDown)
             {
                 honeycomb.ShowMistakeLetterIndex(currentLetterIndex);
-                slider.value -= 0.1f;
+                slider.value -=
+                    _malusUponWrongKey * UpgradeController.Instance.TypingMultiplier;
             }
             else
             {
-                slider.value -= Time.deltaTime * 0.1f;
+                slider.value -= Time.deltaTime * _timeMultiplier * UpgradeController.Instance.TypingMultiplier;
             }
 
             if (slider.value <= 0 || numWordsCompleted >= MaxWords)

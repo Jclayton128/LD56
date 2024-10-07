@@ -66,8 +66,22 @@ public class MovementHandler : MonoBehaviour
     {
         UpdateDesiredVector();
 
-        _moveVector = (_desiredVector * _moveSpeed_Current) +
-            (_bumbleVector * _bumbleMultiplier * _moveSpeed_Current);
+        if (_isPlayer)
+        {
+            _moveVector =
+                (_desiredVector *
+                (_moveSpeed_Current + UpgradeController.Instance.SpeedBonus)) 
+                +
+                (_bumbleVector * _bumbleMultiplier * _moveSpeed_Current);
+        }
+        else
+        {
+            _moveVector = (_desiredVector * _moveSpeed_Current) +
+                (_bumbleVector * _bumbleMultiplier * _moveSpeed_Current);
+        }
+
+
+
 
         UpdatePosition();
 

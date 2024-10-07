@@ -47,6 +47,7 @@ public class FlowerHandler : MonoBehaviour
 
     private void Start()
     {
+        PollenRunController.Instance.NewPollenRunStarted += HandleDayPassed;
         _pollen = _maxPollenCapacity;
         HandleDayPassed();
         //if (_pollen > 0)

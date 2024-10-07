@@ -45,6 +45,12 @@ public class StrategicLoopController : MonoBehaviour
 
     }
 
+    [ContextMenu("Invest Honey")]
+    public void Debug_InvestHoney()
+    {
+        InvestHoney(1);
+    }
+
     public void InvestHoney(int amountToAdd)
     {
         _currentHoney += amountToAdd;
