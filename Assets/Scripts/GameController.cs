@@ -40,26 +40,26 @@ public class GameController : MonoBehaviour
 
     private void Delay_CueIntro()
     {
-        SetGameMode(GameModes.Intro);
+        SetGameMode(GameModes.TitleMenu);
     }
 
     private void HandleAllActiveTweensCompleted()
     {
-        if (!_hasIntroOccurred)
-        {
-            SetGameMode(GameModes.TitleMenu);
-            _hasIntroOccurred = true;
-        }
+        //if (!_hasIntroOccurred)
+        //{
+        //    SetGameMode(GameModes.TitleMenu);
+        //    _hasIntroOccurred = true;
+        //}
     }
 
 
     public void SetGameMode(GameModes newGameMode)
     {
-
+        Debug.Log("Changing Game mode to " + newGameMode);
         if (UIController.Instance.IsUIActivelyTweening)
         {
-            Debug.Log("Cannot swap game modes with active UI tweening");
-            return;
+            Debug.Log("Shouldn't swap game modes with active UI tweening");
+            //return;
         }
         _previousGameMode = _gameMode;
         _gameMode = newGameMode;
@@ -125,34 +125,34 @@ public class GameController : MonoBehaviour
         } 
     }
 
-    private void ListenForDebug()
-    {
-        if (Input.GetKeyDown(KeyCode.Alpha1))
-        {
-            SetGameMode(GameModes.Intro);
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha2))
-        {
-            SetGameMode(GameModes.TitleMenu);
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha3))
-        {
-            SetGameMode(GameModes.Flying);
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha4))
-        {
-            SetGameMode(GameModes.GameOver);
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha5))
-        {
-            SetGameMode(GameModes.Credits);
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha6))
-        {
-            SetGameMode(GameModes.Options);
-        }
+    //private void ListenForDebug()
+    //{
+    //    if (Input.GetKeyDown(KeyCode.Alpha1))
+    //    {
+    //        SetGameMode(GameModes.Intro);
+    //    }
+    //    if (Input.GetKeyDown(KeyCode.Alpha2))
+    //    {
+    //        SetGameMode(GameModes.TitleMenu);
+    //    }
+    //    if (Input.GetKeyDown(KeyCode.Alpha3))
+    //    {
+    //        SetGameMode(GameModes.Flying);
+    //    }
+    //    if (Input.GetKeyDown(KeyCode.Alpha4))
+    //    {
+    //        SetGameMode(GameModes.GameOver);
+    //    }
+    //    if (Input.GetKeyDown(KeyCode.Alpha5))
+    //    {
+    //        SetGameMode(GameModes.Credits);
+    //    }
+    //    if (Input.GetKeyDown(KeyCode.Alpha6))
+    //    {
+    //        SetGameMode(GameModes.Options);
+    //    }
 
 
-    }
+    //}
 
 }
