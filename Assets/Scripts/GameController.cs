@@ -85,7 +85,7 @@ public class GameController : MonoBehaviour
 
     private void Update()
     {
-        ListenForDebug();
+        //ListenForDebug();
         ListenForGameStart();
         ListenForOptionMenu();
     }
