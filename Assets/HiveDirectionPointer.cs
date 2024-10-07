@@ -58,11 +58,11 @@ public class HiveDirectionPointer : MonoBehaviour
         }
 
         if (!_hh) return;
-        if (!_isFaded && _dir.magnitude <= _fadeThreshold && _hh.TotalQuarters > 4)
+        if (!_isFaded && _dir.magnitude <= _fadeThreshold && _hh.TotalQuarters >= 4)
         {
             MakeFaded();
         }
-        else if (_isFaded && _dir.magnitude > _fadeThreshold && _hh.TotalQuarters > 4)
+        else if (_isFaded && _dir.magnitude > _fadeThreshold && _hh.TotalQuarters >= 4)
         {
             MakeVisible();
         }

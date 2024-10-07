@@ -41,6 +41,7 @@ public class PlayerHealthHandler : HealthHandler
     private void HandleFadeToBlackCompleted()
     {
         _hh.DumpAllPollen();
+        transform.position = new Vector2(0, 0.5f);
         UpgradeController.Instance.ReasonToEnteringMode = UpgradeController.ReasonsForEnteringMode.PlayerDeath;
         GameController.Instance.SetGameMode(GameController.GameModes.Upgrading);
         UIController.Instance.FadeOutFromBlack();

@@ -29,6 +29,7 @@ public class AttackHandler : MonoBehaviour
 
     private void Update()
     {
+        if (GameController.Instance.GameMode != GameController.GameModes.Flying) return;
         if (Input.GetKeyDown(KeyCode.Space))
         {
             if (_followers.NumberOfUsableFollowers > 0)

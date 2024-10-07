@@ -11,6 +11,7 @@ public class UIController : MonoBehaviour
     public static UIController Instance { get; private set; }
     public Action AllActiveTweensCompleted;
     public Action FadeToBlackCompleted;
+    public Action FadeToWhiteCompleted;
 
     [SerializeField] PanelDriver[] _introPanel = null;
     [SerializeField] PanelDriver[] _titlePanel = null;
@@ -21,6 +22,7 @@ public class UIController : MonoBehaviour
     [SerializeField] PanelDriver[] _creditsPanel = null;
     [SerializeField] PanelDriver[] _optionsPanel = null;
     [SerializeField] Image _blackoutImage = null;
+    [SerializeField] Image _whiteoutImage = null;
     //
 
     /// <summary>
@@ -33,6 +35,8 @@ public class UIController : MonoBehaviour
 
     [SerializeField] float _timeToBlackout = 2f;
     Tween _blackoutTween;
+    Tween _whiteoutTween;
+
     private void Awake()
     {
         Instance = this;
@@ -201,7 +205,25 @@ public class UIController : MonoBehaviour
         _blackoutTween.Kill();        
         _blackoutTween = _blackoutImage.DOFade(0, _timeToBlackout*3).SetUpdate(true).
             SetEase(Ease.InQuint);
-    } 
+    }
+
+    public void FadeToWhite()
+    {
+        _whiteoutTween.Kill();
+        _whiteoutTween = _whiteoutImage.DOFade(1, _timeToBlackout).SetUpdate(true).OnComplete(HandleFadeToWhiteCompleted);
+    }
+
+    private void HandleFadeToWhiteCompleted()
+    {
+        FadeToWhiteCompleted?.Invoke();
+    }
+    public void FadeOutFromWhite()
+    {
+        _whiteoutImage.DOFade(1, .001f);
+        _whiteoutTween.Kill();
+        _whiteoutTween = _whiteoutImage.DOFade(0, _timeToBlackout * 1).SetUpdate(true).
+            SetEase(Ease.InQuint);
+    }
 
 
 }
