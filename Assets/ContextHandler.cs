@@ -42,17 +42,17 @@ public class ContextHandler : MonoBehaviour
 
     private void ReassessRequestedContexts()
     {
-        if (_requestedBeeContexts.Contains(BeeContexts.Attack))
+        if (_requestedBeeContexts.Contains(BeeContexts.DepositPollenAtHive))
+        {
+            SetContext(BeeContexts.DepositPollenAtHive);
+        }
+        else if(_requestedBeeContexts.Contains(BeeContexts.Attack))
         {
             SetContext(BeeContexts.Attack);
         }
         else if (_requestedBeeContexts.Contains(BeeContexts.Harvest))
         {
             SetContext(BeeContexts.Harvest);
-        }
-        else if (_requestedBeeContexts.Contains(BeeContexts.DepositPollenAtHive))
-        {
-            SetContext(BeeContexts.DepositPollenAtHive);
         }
         else
         {

@@ -188,4 +188,30 @@ public class ArenaController : MonoBehaviour
         }
     }
 
+    public void FreezeAllEnemies()
+    {
+        if (GameController.Instance.GameMode != GameController.GameModes.Flying) return;
+
+        PlayerController.Instance.Player.GetComponent<MovementHandler>().enabled = false;
+
+        var enemies = GameObject.FindGameObjectsWithTag("Enemy");
+        foreach (var enemy in enemies)
+        {
+            enemy.GetComponent<MovementHandler>().enabled = false;
+        }
+    }
+
+    public void UnfreezeAllEnemies()
+    {
+        if (GameController.Instance.GameMode != GameController.GameModes.Flying) return;
+
+        PlayerController.Instance.Player.GetComponent<MovementHandler>().enabled = true;
+        
+        var enemies = GameObject.FindGameObjectsWithTag("Enemy");
+        foreach (var enemy in enemies)
+        {
+            enemy.GetComponent<MovementHandler>().enabled = true;
+        }
+    }
+
 }

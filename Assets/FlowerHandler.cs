@@ -15,9 +15,8 @@ public class FlowerHandler : MonoBehaviour
     [SerializeField] SpriteRenderer _sr_Flower = null;
 
     //settings
-    [SerializeField] float _pollenRegenRate = 0.1f;
-    [SerializeField] float _minPollenForHarvest = 0.2f;
-    [SerializeField] float _maxPollenCapacity = 1f; 
+    [SerializeField] int _daysBetweenReloadingPollen = 2;
+    [SerializeField] int _maxPollenCapacity = 1; 
     
     [Tooltip("Maximum time to keep a bumble")]
     [SerializeField] float _maxBumbleTime = 3f;
@@ -30,16 +29,16 @@ public class FlowerHandler : MonoBehaviour
 
 
     //state
+    int _daysSinceLastHarvest = 0;
     [SerializeField] FlowerTypes _flowerType;
     public FlowerTypes FlowerType => _flowerType;
 
-    [SerializeField] float _pollen;
-    public float Pollen => (_pollen >= _minPollenForHarvest) ? _pollen : 0;
-    public float PollenFactor => _pollen / _maxPollenCapacity;
+    [SerializeField] int _pollen;
+    public int Pollen => _pollen;
+
     Tween _moveTween;
     Tween _bloomTween;
     Vector2 _driftVector;
-    bool _isHarvestable = false;
 
     private void Awake()
     {
@@ -48,20 +47,18 @@ public class FlowerHandler : MonoBehaviour
 
     private void Start()
     {
-        _pollen = UnityEngine.Random.Range(0, _maxPollenCapacity);
-        if (_pollen < _minPollenForHarvest)
-        {
-            _isHarvestable = false;
-            Color col = Color.white;
-            col.a = 0;
-            _sr_Flower.color = col;
-        }
-            
-            
+        _pollen = _maxPollenCapacity;
+        HandleDayPassed();
+        //if (_pollen > 0)
+        //{
+        //    _isHarvestable = true;
+        //    Color col = Color.white;
+        //    col.a = 1;
+        //    _sr_Flower.color = col;
+        //}           
 
         RandomizeSpriteFacings();
-        CommenceNewDrift();
-        
+        CommenceNewDrift();    
     }
 
     private void CommenceNewDrift()
@@ -102,32 +99,42 @@ public class FlowerHandler : MonoBehaviour
         }
     }
 
-    public float HarvestPollen()
+    public int HarvestPollen()
     {
-        float pollenLoad = _pollen;
+        int pollenLoad = _pollen;
         _pollen = 0;
         PollenAvailabilityChanged?.Invoke(this, false);
         FadeFlowerAway();
-        _isHarvestable = false;
         //_sr_Flower.enabled = false;
         return pollenLoad;
     }
 
+    private void HandleDayPassed()
+    {
+        _daysSinceLastHarvest++;
+        if (_daysSinceLastHarvest >= _daysBetweenReloadingPollen)
+        {
+            _pollen = _maxPollenCapacity;
+            FadeFlowerIn();
+        }
+    }
+
     private void Update()
     {
-        if (GameController.Instance.GameMode != GameController.GameModes.Flying) return;
-
-        _pollen += _pollenRegenRate * Time.deltaTime;
-        _pollen = Mathf.Clamp(_pollen, 0, _maxPollenCapacity);
-        if (!_isHarvestable && _pollen > _minPollenForHarvest)
-        {
-            //_sr_Flower.enabled = true;
-            FadeFlowerIn();
-            _isHarvestable = true;
-            PollenAvailabilityChanged?.Invoke(this, true);
-        }
-
         _sr_Flower.transform.localPosition = _driftVector;
+        //if (GameController.Instance.GameMode != GameController.GameModes.Flying) return;
+
+        //_pollen += _pollenRegenRate * Time.deltaTime;
+        //_pollen = Mathf.Clamp(_pollen, 0, _maxPollenCapacity);
+        //if (!_isHarvestable && _pollen > _minPollenForHarvest)
+        //{
+        //    //_sr_Flower.enabled = true;
+        //    FadeFlowerIn();
+        //    _isHarvestable = true;
+        //    PollenAvailabilityChanged?.Invoke(this, true);
+        //}
+
+
 
     }
 
