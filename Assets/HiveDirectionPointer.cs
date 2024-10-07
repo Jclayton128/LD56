@@ -13,7 +13,7 @@ public class HiveDirectionPointer : MonoBehaviour
     //settings
     [SerializeField] float _fadeThreshold = 10f;
     [SerializeField] float _fadeTime = 1.5f;
-
+    HarvestHandler _hh;
 
     //state
     Tween _fadeTween;
@@ -38,6 +38,7 @@ public class HiveDirectionPointer : MonoBehaviour
     private void HandleNewPlayerSpawned()
     {
         _bee = PlayerController.Instance.Player;
+        _hh = _bee.GetComponentInChildren<HarvestHandler>();
         MakeFaded();
     }
 
@@ -52,18 +53,21 @@ public class HiveDirectionPointer : MonoBehaviour
         {
             _beePos = _bee.transform.position;
             _dir = (_homeHivePos - _beePos);
+            _pointerImage.rectTransform.up = Vector2.up;
+            _pointer.transform.up = _dir;
         }
 
-        if (!_isFaded && _dir.magnitude <= _fadeThreshold)
+        if (!_hh) return;
+        if (!_isFaded && _dir.magnitude <= _fadeThreshold && _hh.TotalQuarters > 4)
         {
             MakeFaded();
         }
-        else if (_isFaded && _dir.magnitude > _fadeThreshold)
+        else if (_isFaded && _dir.magnitude > _fadeThreshold && _hh.TotalQuarters > 4)
         {
             MakeVisible();
         }
 
-        _pointer.transform.up = _dir;
+
     }
 
     private void MakeVisible()

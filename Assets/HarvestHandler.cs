@@ -19,6 +19,7 @@ public class HarvestHandler : MonoBehaviour
     [SerializeField] List<FlowerHandler> _harvestableFlowersInRange = new List<FlowerHandler>();
 
     [SerializeField] int _totalQuarters = 0;
+    public int TotalQuarters => _totalQuarters;
 
     [SerializeField] HiveHandler _hiveHandler;
 
