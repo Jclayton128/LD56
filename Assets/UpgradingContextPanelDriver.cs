@@ -72,12 +72,14 @@ public class UpgradingContextPanelDriver : MonoBehaviour
                 _playerSpeakPanel.SetActive(true);
                 _queenSpeakPanel.SetActive(false);
                 _upgradingPanel.SetActive(false);
+                //AUDIO This is played when the player is speaking to the queen during the little cutscene upon returning to hive. Maybe a buzzy/talking sound?
                 break;
 
             case UpgradeController.PanelModes.QueenSpeak:
                 _playerSpeakPanel.SetActive(false);
                 _queenSpeakPanel.SetActive(true);
                 _upgradingPanel.SetActive(false);
+                //AUDIO This is played when the queen is speaking to the player during the little cutscene upon returning to hive. Maybe a more regal/deeper buzzy/talking sound?
                 break;
 
             case UpgradeController.PanelModes.Upgrade:

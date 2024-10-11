@@ -19,6 +19,7 @@ namespace BeeGame.TypingGame
         [SerializeField] float _malusUponWrongKey = 0.05f;
         [SerializeField] float _timeMultiplier = 0.6f;
 
+        bool _hasPressedAKeyThisRun = false;
 
         private const int MaxWords = 10;
 
@@ -88,6 +89,7 @@ namespace BeeGame.TypingGame
             currentWordIndex = 0;
             ShuffleWordList();
             PlayNextWord();
+            _hasPressedAKeyThisRun = false;
         }
 
         private void PlayNextWord()
@@ -98,6 +100,7 @@ namespace BeeGame.TypingGame
                 currentWordIndex = 0;
             }
             PlayWord(wordList[currentWordIndex]);
+            //AUDIO This is called whenever the player has successfully played a word. Maybe a happy 'success' sound?
             currentWordIndex++;
         }
 
@@ -110,11 +113,13 @@ namespace BeeGame.TypingGame
 
         private void Update()
         {
+
             if (currentWord == null) return;
             var requiredCharacter = currentWord[currentLetterIndex];
             var requiredKeyCode = KeyCode.A + requiredCharacter - 'A';
             if (Input.GetKeyDown(requiredKeyCode))
             {
+                _hasPressedAKeyThisRun = true;
                 slider.value += _bonusUponCorrectKey;
                 honeycomb.TypeLetterIndex(currentLetterIndex);
                 currentLetterIndex++;
@@ -129,11 +134,13 @@ namespace BeeGame.TypingGame
             }
             else if (Input.anyKeyDown)
             {
+                _hasPressedAKeyThisRun = true;
                 honeycomb.ShowMistakeLetterIndex(currentLetterIndex);
                 slider.value -=
                     _malusUponWrongKey * UpgradeController.Instance.TypingMultiplier;
+                //AUDIO this is called when the player has made a typing error. Maybe a sad/angry buzz sound?
             }
-            else
+            else if (_hasPressedAKeyThisRun)
             {
                 slider.value -= Time.deltaTime * _timeMultiplier * UpgradeController.Instance.TypingMultiplier;
             }

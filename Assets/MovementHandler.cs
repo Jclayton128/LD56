@@ -52,6 +52,8 @@ public class MovementHandler : MonoBehaviour
     {
         _bumbleTween.Kill();
 
+        //AUDIO This is called about every 1-3 seconds when a new bumble vector is created. 
+
         Vector2 newBumbleVec = UnityEngine.Random.insideUnitCircle;
         float timeToHoldNewBumbleVec = UnityEngine.Random.Range(_minBumbleTime, _maxBumbleTime);
 
@@ -73,6 +75,8 @@ public class MovementHandler : MonoBehaviour
                 (_moveSpeed_Current + UpgradeController.Instance.SpeedBonus)) 
                 +
                 (_bumbleVector * _bumbleMultiplier * _moveSpeed_Current);
+
+            
         }
         else
         {
@@ -102,6 +106,8 @@ public class MovementHandler : MonoBehaviour
             _desiredVector.x = Input.GetAxis("Horizontal");
             _desiredVector.y = Input.GetAxis("Vertical");
             _desiredVector.Normalize();
+
+            //AUDIO Okay, this may be the place where things get difficult. If we wanted to do a sound specifically tied to how the player bee is moving, it would likely be in here, when the player's desired vector is being actively manipulated by the player. Alternatively, we could apply logic to the _moveVector logic contained with the main Update() method, IF we wanted the sound to be driven by both player input and the random bumble.
         }
         else
         {

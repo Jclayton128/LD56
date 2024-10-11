@@ -197,7 +197,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _sr_Stem: {fileID: 3496437667019834855}
   _sr_Flower: {fileID: 2667818838564675179}
-  _daysBetweenReloadingPollen: 4
+  _daysBetweenReloadingPollen: 3
   _maxPollenCapacity: 1
   _maxBumbleTime: 3
   _minBumbleTime: 1

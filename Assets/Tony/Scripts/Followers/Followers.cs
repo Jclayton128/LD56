@@ -59,6 +59,7 @@ namespace BeeGame
                 Debug.LogWarning("No bees left to attack with!", this);
                 return;
             }
+            //AUDIO This is called when a follower bee is shot out like a missile to attack a wasp.
             FollowerBeeController fbc = _unusedFollowerBees[0];
             _unusedFollowerBees.RemoveAt(0);
             fbc.SetTarget(target);

@@ -16,6 +16,7 @@ public class HarvestHandler : MonoBehaviour
 
 
     //state
+    bool _hasHitSpaceThisRun = false;
     [SerializeField] List<FlowerHandler> _harvestableFlowersInRange = new List<FlowerHandler>();
 
     [SerializeField] int _totalQuarters = 0;
@@ -38,7 +39,7 @@ public class HarvestHandler : MonoBehaviour
     {
         if (newGameMode == GameController.GameModes.Flying)
         {
-            
+            _hasHitSpaceThisRun = false;
             enabled = true;
             ArenaController.Instance.UnfreezeAllEnemies();
         }
@@ -56,6 +57,7 @@ public class HarvestHandler : MonoBehaviour
                 if (!_harvestableFlowersInRange.Contains(fh))
                 {
                     _harvestableFlowersInRange.Add(fh);
+
                 }
                 _contextHandler.AddAvailableContext(ContextHandler.BeeContexts.Harvest);
             }
@@ -70,6 +72,7 @@ public class HarvestHandler : MonoBehaviour
             if (_totalQuarters / 4 > 0)
             {
                 _contextHandler.AddAvailableContext(ContextHandler.BeeContexts.DepositPollenAtHive);
+
             }           
         }
 
@@ -85,6 +88,7 @@ public class HarvestHandler : MonoBehaviour
             if (_harvestableFlowersInRange.Count == 0)
             {
                 _contextHandler.RemoveAvailableContext(ContextHandler.BeeContexts.Harvest);
+
             }
         }
 
@@ -122,8 +126,10 @@ public class HarvestHandler : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            if (_contextHandler.BeeContext == ContextHandler.BeeContexts.DepositPollenAtHive && _hiveHandler && (_totalQuarters/4 > 0))
+            if (!_hasHitSpaceThisRun && _contextHandler.BeeContext == ContextHandler.BeeContexts.DepositPollenAtHive && _hiveHandler && (_totalQuarters/4 > 0))
             {
+                _hasHitSpaceThisRun = true;
+                GameObject.FindAnyObjectByType<BeeGame.DayManager>().enabled = false;
                 DepositPollen();
             }
 
@@ -165,14 +171,17 @@ public class HarvestHandler : MonoBehaviour
         _ps.transform.up = dir;
         _ps.Play();
         ArenaController.Instance.FreezeAllEnemies();
+        //AUDIO This is called a single time when the player initiates a Deposit at Hive action. Could put a single deposit sound here, or multiple in the "DecrementPollenOnDeposit" method (see below).
 
         DecrementPollenOnDeposit();
-        //TODO whoosing particle effect from bee into hive
+        
     }
 
     private void DecrementPollenOnDeposit()
     {
         _totalQuarters--;
+        //AUDIO This is called during the Deposit at Hive moment. It will get called 
+        //multiple times, once for every quarter hex that is deposited.
         if (_totalQuarters == 0)
         {
             PollenLoadChanged?.Invoke(_totalQuarters);
@@ -193,6 +202,7 @@ public class HarvestHandler : MonoBehaviour
         _totalQuarters = 0;
         UpgradeController.Instance.ReasonToEnteringMode = UpgradeController.ReasonsForEnteringMode.NormalDeposit;
         GameController.Instance.SetGameMode(GameController.GameModes.Upgrading);
+        GameObject.FindAnyObjectByType<BeeGame.DayManager>().enabled = true;
     }
     
     public void DumpAllPollen()

@@ -26,7 +26,8 @@ public class PlayerHealthHandler : HealthHandler
 
             UIController.Instance.FadeToBlack();
             //Destroy(transform.gameObject);
-            
+            //AUDIO This is called when the player takes damage and has no follower bees left to absorb the hurt. It is called immediately upon taking damage, and would be heard by the player as the screen is fading to black.
+
         }
         else
         {
@@ -34,6 +35,7 @@ public class PlayerHealthHandler : HealthHandler
             for (int i = 0; i < hitpoints; i++)
             {
                 _followers.KillFollowerBeeUponPlayerBeeDamaged();
+                //AUDIO This is called when the player bee should take damage, but instead one of the follower bees is killed instead.
             }
         }
     }
@@ -41,7 +43,7 @@ public class PlayerHealthHandler : HealthHandler
     private void HandleFadeToBlackCompleted()
     {
         _hh.DumpAllPollen();
-        transform.position = new Vector2(0, 0.5f);
+        transform.parent.position = new Vector2(0, 0.5f);
         UpgradeController.Instance.ReasonToEnteringMode = UpgradeController.ReasonsForEnteringMode.PlayerDeath;
         GameController.Instance.SetGameMode(GameController.GameModes.Upgrading);
         UIController.Instance.FadeOutFromBlack();

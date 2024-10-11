@@ -43,17 +43,20 @@ public class WaspAlertDepictor : MonoBehaviour
         _angerTween.Kill();
         _angerTween = _sr.DOColor(_angryColor, _timeToBecomeAngry).OnComplete(HandleBecameAngry);
         _moveHandler.SetMoveSpeed(0);
+        //AUDIO This is called the moment that a wasp detects a bee and has its anger start to charge up. It is turning red while this sound is played.
     }
 
     private void HandleBecameAngry()
     {
         _moveHandler.SetMoveSpeed(_speedWhenAngry);
+        //AUDIO This is called when the wasp has reached full anger and is now shooting off towards the player at high speed.
     }
 
     private void BecomeCalm()
     {
         _angerTween.Kill();
         _angerTween = _sr.DOColor(Color.white, _timeToBecomeAngry).OnComplete(HandleBecameCalm);
+        //AUDIO Called if/when the wasp has lost sight of the player bee and has begun reseting back to normal calm mode where it can move.
     }
 
     private void HandleBecameCalm()

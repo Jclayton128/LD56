@@ -199,10 +199,11 @@ public class UpgradeController : MonoBehaviour
                     PollenHexesToSpendChanged?.Invoke(_fullHexesToSpend);
                     StrategicLoopController.Instance.InvestHoney(1);
                     PushUpgradeOptionsToSubPanels();
+                    //AUDIO This is called when player spends a hex coin to purchase honey for the winter.
                 }
                 else
                 {
-                    //TODO Play "not enough cash" sound.
+                    //AUDIO This is called when the player attempts to purchase an upgrade that they cannot affort. Play "not enough cash" sound.
                 }
 
 
@@ -223,10 +224,11 @@ public class UpgradeController : MonoBehaviour
                     PollenCapacityChanged?.Invoke();
                     PushUpgradeOptionsToSubPanels();
                     Debug.Log($"Spent {_upgradeCount_PollenCap + 1} to buy {_upgradeCount_PollenCap} level of increased pollen capacity");
+                    //AUDIO this is called when the player purchase an upgrade to carry more pollen.
                 }
                 else
                 {
-                    //TODO Play "not enough cash" sound.
+                    //AUDIO This is called when the player attempts to purchase an upgrade that they cannot affort. Play "not enough cash" sound.
                 }
             }
             if (Input.GetKeyDown(KeyCode.LeftArrow) &&
@@ -242,10 +244,11 @@ public class UpgradeController : MonoBehaviour
                     PlayerSpeedChanged?.Invoke();
                     PushUpgradeOptionsToSubPanels();
                     Debug.Log($"Spent {_upgradeCount_PlayerSpeed + 1} to buy {_upgradeCount_PlayerSpeed} level of increased move speed");
+                    //AUDIO this is called when the player purchase an upgrade to fly faster
                 }
                 else
                 {
-                    //TODO Play "not enough cash" sound.
+                    //AUDIO This is called when the player attempts to purchase an upgrade that they cannot affort. Play "not enough cash" sound.
                 }
             }
 
@@ -262,10 +265,11 @@ public class UpgradeController : MonoBehaviour
                     TypingBonusChanged?.Invoke();
                     PushUpgradeOptionsToSubPanels();
                     Debug.Log($"Spent {_upgradeCount_TypingUpgrade + 1} to buy {_upgradeCount_TypingUpgrade} level of 3rd effect...");
+                    //AUDIO This is called when the player purchases the type-better upgrade
                 }
                 else
                 {
-                    //TODO Play "not enough cash" sound.
+                    //AUDIO This is called when the player attempts to purchase an upgrade that they cannot affort. Play "not enough cash" sound.
                 }
             }
 

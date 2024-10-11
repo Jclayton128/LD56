@@ -41,6 +41,7 @@ namespace BeeGame
             currentTime = sunriseHour;
             previousHour = sunriseHour - 1;
             isActive = true;
+            //AUDIO This is called when the day starts. It exactly coincides with when the player leaves the hive to start the run. If you
         }
 
         public void StopDay()
@@ -57,12 +58,14 @@ namespace BeeGame
         private void StopMorning()
         {
             morningImages.ForEach(x => x.alpha = 0);
+            //AUDIO This is called about 25% of the way through the pollen hunt as the morning sunrise image is completely faded out.
         }
 
         private void StartNight()
         {
             eveningImages.ForEach(x => x.alpha = 0);
             eveningImages[eveningImages.Count - 1].alpha = 1;
+            //AUDIO This is called immediately once the player has been outside too long. Perhaps an owl hooting sound just to drive home the reason for why the screen is becoming dark?
         }
 
         private void Update()
